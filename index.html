@@ -126,18 +126,21 @@
         <br><br>
         <button onclick="calculateScore()">Submit Scores</button>
         <button onclick="resetScores()">Reset</button>
+        <button onclick="toggleStopwatch()">Stopwatch</button>
+
         <div id="result"></div>
     </div>
     <br>
-    <div id="timer">00:00:00</div>
-    <div id="timer-controls">
-        <button id="startStopBtn" onclick="toggleTimer()">Start</button>
-        <button onclick="resetTimer()">Reset</button>
+    <div id="stopwatch-container" style="display: none;"> 
+        <div id="timer">00:00:00</div>
+        <div id="timer-controls">
+            <button id="startStopBtn" onclick="toggleTimer()">Start</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
     </div>
+    
     <br><br>
-    <!-- <div id="footer">
-        Developed by Okinawan Shito Ryu Karate Do India
-    </div> -->
+
     <p>
         Developed by Okinavan Shito Ryu Karate Do India
     </p>
@@ -158,6 +161,10 @@
                 clearInterval(timer);
             }
         }
+        function toggleStopwatch() {
+    let stopwatch = document.getElementById('stopwatch-container');
+    stopwatch.style.display = stopwatch.style.display === "none" ? "block" : "none";
+}
 
         function updateTimer() {
             milliseconds += 10;
