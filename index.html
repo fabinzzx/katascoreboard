@@ -51,10 +51,18 @@
             transition: 0.3s;
         }
 
-        input.selected-score {
-            background: rgba(141, 15, 15, 0.8);
-            color: white;
-        }
+        @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+input.selected-score {
+    background: rgba(141, 15, 15, 0.8);
+    color: white;
+    animation: flicker 1.4s infinite alternate;
+}
+
 
         button {
             background: maroon;
@@ -112,24 +120,39 @@
         #timer-controls {
             margin-top: 20px;
         }
+        .judge{
+            font-size: larger;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>KATA SCOREBOARD</h1>
+    
     <div id="scoreboard">
-        <input type="number" id="score1" min="0" max="10" step="0.1" oninput="validateScore(this)">
-        <input type="number" id="score2" min="0" max="10" step="0.1" oninput="validateScore(this)">
-        <input type="number" id="score3" min="0" max="10" step="0.1" oninput="validateScore(this)">
-        <input type="number" id="score4" min="0" max="10" step="0.1" oninput="validateScore(this)">
-        <input type="number" id="score5" min="0" max="10" step="0.1" oninput="validateScore(this)">
+        <div class="judge" style="display: flex; justify-content: center; gap: 2.1cm;">
+            <label for="score1">JUDGE 1</label>
+            <label for="score2">JUDGE 2</label>
+            <label for="score3">JUDGE 3</label>
+            <label for="score4">JUDGE 4</label>
+            <label for="score5">JUDGE 5</label>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <input type="number" id="score1" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score2" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score3" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score4" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score5" min="0" max="10" step="0.1" oninput="validateScore(this)">
+        </div>
         <br><br>
         <button onclick="calculateScore()">Submit Scores</button>
         <button onclick="resetScores()">Reset</button>
         <button onclick="toggleStopwatch()">Stopwatch</button>
-
+    
         <div id="result"></div>
     </div>
+    
     <br>
     <div id="stopwatch-container" style="display: none;"> 
         <div id="timer">00:00:00</div>
