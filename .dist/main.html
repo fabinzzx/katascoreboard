@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kata Scoreboard</title>
+    <style>
+        body {
+            font-family: 'Oswald', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #1e1e1e, #3a3a3a);
+            color: white;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #scoreboard {
+            margin-top: 50px;
+            background: rgba(50, 50, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+            animation: slideIn 1s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        input {
+            width: 100px;
+            height: 50px;
+            margin: 10px;
+            padding: 10px;
+            font-size: 40px;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid white;
+            background: #666;
+            color: white;
+            transition: 0.3s;
+        }
+
+        @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+input.selected-score {
+    background: rgba(255, 255, 255, 0.8);
+    color: rgb(0, 0, 0);
+    animation: flicker 1.4s infinite alternate;
+}
+
+
+        button {
+            background: maroon;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 22px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: darkred;
+            transform: scale(1.1);
+        }
+
+        #result {
+            font-size: 60px;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #footer {
+            padding-top: 3cm;
+            font-size: 13px;
+            font-weight: bold;
+            animation: fadeIn 2s ease-in-out;
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        p{
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #timer {
+            font-size: 80px;
+            font-weight: bold;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            font-family: monospace;
+            min-width: 300px;
+        }
+
+        #timer-controls {
+            margin-top: 20px;
+        }
+        .judge{
+            font-size: larger;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>KATA SCOREBOARD</h1>
+    
+    <div id="scoreboard">
+        <div class="judge" style="display: flex; justify-content: center; gap: 2.1cm;">
+            <label for="score1">JUDGE 1</label>
+            <label for="score2">JUDGE 2</label>
+            <label for="score3">JUDGE 3</label>
+            <label for="score4">JUDGE 4</label>
+            <label for="score5">JUDGE 5</label>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <input type="number" id="score1" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score2" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score3" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score4" min="0" max="10" step="0.1" oninput="validateScore(this)">
+            <input type="number" id="score5" min="0" max="10" step="0.1" oninput="validateScore(this)">
+        </div>
+        <br><br>
+        <button onclick="calculateScore()">Submit Scores</button>
+        <button onclick="resetScores()">Reset</button>
+        <button onclick="toggleStopwatch()">Stopwatch</button>
+    
+        <div id="result"></div>
+    </div>
+    
+    <br>
+    <div id="stopwatch-container" style="display: none;"> 
+        <div id="timer">00:00:00</div>
+        <div id="timer-controls">
+            <button id="startStopBtn" onclick="toggleTimer()">Start</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+    
+    <br><br>
+
+    <p>
+        Developed by Okinavan Shito Ryu Karate Do India
+    </p>
+
+    <script>
+        let timer;
+        let milliseconds = 0;
+        let running = false;
+
+        function toggleTimer() {
+            if (!running) {
+                running = true;
+                document.getElementById('startStopBtn').innerText = 'Stop';
+                timer = setInterval(updateTimer, 10);
+            } else {
+                running = false;
+                document.getElementById('startStopBtn').innerText = 'Start';
+                clearInterval(timer);
+            }
+        }
+        function toggleStopwatch() {
+    let stopwatch = document.getElementById('stopwatch-container');
+    stopwatch.style.display = stopwatch.style.display === "none" ? "block" : "none";
+}
+
+        function updateTimer() {
+            milliseconds += 10;
+            let mins = String(Math.floor((milliseconds / 60000) % 60)).padStart(2, '0');
+            let secs = String(Math.floor((milliseconds / 1000) % 60)).padStart(2, '0');
+            let ms = String(Math.floor((milliseconds / 10) % 100)).padStart(2, '0');
+            document.getElementById('timer').innerText = `${mins}:${secs}:${ms}`;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            running = false;
+            milliseconds = 0;
+            document.getElementById('timer').innerText = "00:00:00";
+            document.getElementById('startStopBtn').innerText = 'Start';
+        }
+
+        function validateScore(input) {
+            if (parseFloat(input.value) > 10) {
+                input.value = 10;
+            }
+        }
+
+        function calculateScore() {
+    let scores = [
+        parseFloat(document.getElementById('score1').value) || 0,
+        parseFloat(document.getElementById('score2').value) || 0,
+        parseFloat(document.getElementById('score3').value) || 0,
+        parseFloat(document.getElementById('score4').value) || 0,
+        parseFloat(document.getElementById('score5').value) || 0
+    ];
+
+    let sortedScores = [...scores].sort((a, b) => a - b);
+    let middleScores = sortedScores.slice(1, 4);
+    let sum = middleScores.reduce((acc, val) => acc + val, 0);
+
+    document.querySelectorAll('input').forEach(input => {
+        input.classList.remove('selected-score');
+    });
+
+    // Create a copy of middleScores to track which values are used
+    let tempMiddle = [...middleScores];
+
+    scores.forEach((score, index) => {
+        let pos = tempMiddle.indexOf(score);
+        if (pos !== -1) {
+            document.getElementById(`score${index + 1}`).classList.add('selected-score');
+            tempMiddle.splice(pos, 1); // Remove the matched score to prevent duplicate matching
+        }
+    });
+
+    document.getElementById('result').innerText = `Total Score: ${sum.toFixed(1)}`;
+}
+
+        function resetScores() {
+            document.querySelectorAll('input').forEach(input => {
+                input.value = '';
+                input.classList.remove('selected-score');
+            });
+            document.getElementById('result').innerText = '';
+        }
+    </script>
+</body>
+</html>
