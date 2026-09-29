@@ -3,252 +3,887 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kata Scoreboard</title>
+    <title>WKF Kata Scoreboard - Championship Edition</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Oswald:wght@400;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: rgba(18, 26, 43, 0.85);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --aka-red: #dc2626;
+            --aka-gradient: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+            --ao-blue: #2563eb;
+            --ao-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            --gold-accent: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --counted-bg: rgba(16, 185, 129, 0.15);
+            --counted-border: #10b981;
+            --dropped-bg: rgba(239, 68, 68, 0.1);
+            --dropped-border: rgba(239, 68, 68, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
         body {
-            font-family: 'Oswald', sans-serif;
-            text-align: center;
-            background: linear-gradient(to right, #1e1e1e, #3a3a3a);
-            color: white;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        #scoreboard {
-            margin-top: 50px;
-            background: rgba(50, 50, 50, 0.9);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.12) 0%, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
             padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-            animation: slideIn 1s ease-in-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            overflow-x: hidden;
         }
 
-        h1 {
-            font-size: 50px;
-        }
-
-        input {
-            width: 100px;
-            height: 50px;
-            margin: 10px;
-            padding: 10px;
-            font-size: 40px;
-            text-align: center;
-            border-radius: 5px;
-            border: 2px solid white;
-            background: #666;
-            color: white;
-            transition: 0.3s;
-        }
-
-        @keyframes flicker {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-input.selected-score {
-    background: rgba(211, 211, 211, 0.8);
-    color: rgb(0, 0, 0);
-    animation: flicker 1.4s infinite alternate;
-}
-
-
-        button {
-            background: maroon;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 22px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-            margin: 5px;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: darkred;
-            transform: scale(1.1);
-        }
-
-        #result {
-            font-size: 60px;
-            margin-top: 20px;
-            font-weight: bold;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        #footer {
-            padding-top: 3cm;
-            font-size: 13px;
-            font-weight: bold;
-            animation: fadeIn 2s ease-in-out;
-            position: fixed;
-            bottom: 10px;
+        /* Top Header Navigation */
+        header {
             width: 100%;
-            text-align: center;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        p{
-            font-size: 13px;
-            font-family: Arial, Helvetica, sans-serif;
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
 
-        #timer {
-            font-size: 80px;
-            font-weight: bold;
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .belt-badge {
+            display: flex;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .belt-badge span {
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .belt-badge .aka {
+            background: var(--aka-gradient);
+            color: white;
+        }
+
+        .belt-badge .ao {
+            background: var(--ao-gradient);
+            color: white;
+        }
+
+        .belt-badge span.inactive {
+            opacity: 0.3;
+            filter: grayscale(80%);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 16px;
             border-radius: 10px;
-            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        /* Athlete Info & Kata Selection */
+        .match-info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.4s ease;
+        }
+
+        .match-info-card.aka-active {
+            border-color: rgba(220, 38, 38, 0.6);
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
+        }
+
+        .match-info-card.ao-active {
+            border-color: rgba(37, 99, 235, 0.6);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.15);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+
+        .input-group input, .input-group select {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        }
+
+        /* 5-Judge Grid */
+        .judges-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .judge-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .judge-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .score-input-wrapper {
+            width: 100%;
+            position: relative;
+        }
+
+        .score-input {
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-size: 38px;
+            font-weight: 900;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .score-input:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Counted & Dropped Status Styles */
+        .judge-card.status-counted {
+            background: var(--counted-bg);
+            border-color: var(--counted-border);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .judge-card.status-counted .score-input {
+            color: #34d399;
+            border-color: var(--counted-border);
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+        }
+
+        .judge-card.status-dropped {
+            background: var(--dropped-bg);
+            border-color: var(--dropped-border);
+            opacity: 0.55;
+        }
+
+        .judge-card.status-dropped .score-input {
+            color: #f87171;
+            text-decoration: line-through;
+            border-color: var(--dropped-border);
+        }
+
+        .status-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .judge-card.status-counted .status-badge {
+            opacity: 1;
+            background: #10b981;
+            color: #064e3b;
+        }
+
+        .judge-card.status-dropped .status-badge {
+            opacity: 1;
+            background: #ef4444;
+            color: #450a0a;
+        }
+
+        /* Preset Numpad Controls */
+        .score-presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            width: 100%;
+        }
+
+        .btn-preset {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 6px 0;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-preset:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Results & Timer Dashboard Section */
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+        }
+
+        .total-score-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .total-score-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .total-score-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 80px;
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+            line-height: 1;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .score-formula {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             font-family: monospace;
-            min-width: 300px;
         }
 
-        #timer-controls {
-            margin-top: 20px;
+        /* Timer Box */
+        .timer-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
         }
-        .judge{
-            font-size: larger;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+
+        .timer-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 48px;
+            font-weight: 900;
+            color: #38bdf8;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            letter-spacing: 2px;
+            margin: 10px 0;
         }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <h1>KATA SCOREBOARD</h1>
-    
-    <div id="scoreboard">
-        <div class="judge" style="display: flex; justify-content: center; gap: 2.1cm;">
-            <label for="score1">JUDGE 1</label>
-            <label for="score2">JUDGE 2</label>
-            <label for="score3">JUDGE 3</label>
-            <label for="score4">JUDGE 4</label>
-            <label for="score5">JUDGE 5</label>
-        </div>
-        <div style="display: flex; justify-content: center; gap: 10px;">
-            <input type="number" id="score1" min="0" max="10" step="0.1" oninput="validateScore(this)">
-            <input type="number" id="score2" min="0" max="10" step="0.1" oninput="validateScore(this)">
-            <input type="number" id="score3" min="0" max="10" step="0.1" oninput="validateScore(this)">
-            <input type="number" id="score4" min="0" max="10" step="0.1" oninput="validateScore(this)">
-            <input type="number" id="score5" min="0" max="10" step="0.1" oninput="validateScore(this)">
-        </div>
-        <br><br>
-        <button onclick="calculateScore()">Submit Scores</button>
-        <button onclick="resetScores()">Reset</button>
-        <button onclick="toggleStopwatch()">Stopwatch</button>
-    
-        <div id="result"></div>
-    </div>
-    
-    <br>
-    <div id="stopwatch-container" style="display: none;"> 
-        <div id="timer">00:00:00</div>
-        <div id="timer-controls">
-            <button id="startStopBtn" onclick="toggleTimer()">Start</button>
-            <button onclick="resetTimer()">Reset</button>
-        </div>
-    </div>
-    
-    <br><br>
 
-    <p>
-        Developed by Okinavan Shito Ryu Karate Do India
-    </p>
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
 
-    <script>
-        let timer;
-        let milliseconds = 0;
-        let running = false;
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
 
-        function toggleTimer() {
-            if (!running) {
-                running = true;
-                document.getElementById('startStopBtn').innerText = 'Stop';
-                timer = setInterval(updateTimer, 10);
-            } else {
-                running = false;
-                document.getElementById('startStopBtn').innerText = 'Start';
-                clearInterval(timer);
+        .btn-primary {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            brightness: 1.1;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            brightness: 1.1;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Action Buttons Footer */
+        .controls-bar {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        footer strong {
+            color: var(--text-main);
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 900px) {
+            .judges-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .dashboard-row {
+                grid-template-columns: 1fr;
+            }
+            .match-info-card {
+                grid-template-columns: 1fr;
             }
         }
-        function toggleStopwatch() {
-    let stopwatch = document.getElementById('stopwatch-container');
-    stopwatch.style.display = stopwatch.style.display === "none" ? "block" : "none";
-}
 
-        function updateTimer() {
-            milliseconds += 10;
-            let mins = String(Math.floor((milliseconds / 60000) % 60)).padStart(2, '0');
-            let secs = String(Math.floor((milliseconds / 1000) % 60)).padStart(2, '0');
-            let ms = String(Math.floor((milliseconds / 10) % 100)).padStart(2, '0');
-            document.getElementById('timer').innerText = `${mins}:${secs}:${ms}`;
+        @media (max-width: 600px) {
+            .judges-grid {
+                grid-template-columns: 1fr;
+            }
+            .total-score-display {
+                font-size: 54px;
+            }
+            .timer-display {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header>
+        <div class="header-title">
+            <h1>KATA SCOREBOARD</h1>
+            <div className="belt-badge">
+                <span id="badge-aka" class="aka" onclick="setBelt('aka')">🔴 AKA</span>
+                <span id="badge-ao" class="ao inactive" onclick="setBelt('ao')">🔵 AO</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-icon" onclick="resetAll()">
+                🔄 Reset Scoreboard
+            </button>
+            <button class="btn-icon" onclick="toggleFullScreen()">
+                ⛶ Fullscreen Arena Mode
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Scoreboard Workspace -->
+    <div class="main-container">
+
+        <!-- Competitor & Kata Details -->
+        <div class="match-info-card aka-active" id="match-card">
+            <div class="input-group">
+                <label for="athleteName">Athlete Name / Dojo</label>
+                <input type="text" id="athleteName" placeholder="e.g. Fabin Francis (Pattam Dojo)">
+            </div>
+            <div class="input-group">
+                <label for="kataSelect">Kata Name</label>
+                <select id="kataSelect">
+                    <option value="Anan">Anan</option>
+                    <option value="Anan Dai">Anan Dai</option>
+                    <option value="Annanko">Annanko</option>
+                    <option value="Chatanyara Kushanku">Chatanyara Kushanku</option>
+                    <option value="Suparinpei">Suparinpei</option>
+                    <option value="Papuren">Papuren</option>
+                    <option value="Paiku">Paiku</option>
+                    <option value="Heiku">Heiku</option>
+                    <option value="Bassai Dai">Bassai Dai</option>
+                    <option value="Bassai Sho">Bassai Sho</option>
+                    <option value="Kanku Dai">Kanku Dai</option>
+                    <option value="Kanku Sho">Kanku Sho</option>
+                    <option value="Seienchin">Seienchin</option>
+                    <option value="Seipai">Seipai</option>
+                    <option value="Nipaipo">Nipaipo</option>
+                    <option value="Matsumura Rohai">Matsumura Rohai</option>
+                    <option value="Gankaku">Gankaku</option>
+                    <option value="Unsu">Unsu</option>
+                    <option value="Goju Shi Ho Sho">Goju Shi Ho Sho</option>
+                    <option value="Goju Shi Ho Dai">Goju Shi Ho Dai</option>
+                    <option value="Other">Other / Open Kata</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 5 Judges Cards -->
+        <div class="judges-grid">
+            
+            <!-- Judge 1 -->
+            <div class="judge-card" id="card-1">
+                <span class="judge-title">JUDGE 1</span>
+                <span class="status-badge" id="badge-1">PENDING</span>
+                <div class="score-input-wrapper">
+                    <input type="number" id="score1" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
+                </div>
+                <div class="score-presets">
+                    <button class="btn-preset" onclick="setJudgeScore(1, 7.5)">7.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(1, 8.0)">8.0</button>
+                    <button class="btn-preset" onclick="setJudgeScore(1, 8.5)">8.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(1, 9.0)">9.0</button>
+                </div>
+            </div>
+
+            <!-- Judge 2 -->
+            <div class="judge-card" id="card-2">
+                <span class="judge-title">JUDGE 2</span>
+                <span class="status-badge" id="badge-2">PENDING</span>
+                <div class="score-input-wrapper">
+                    <input type="number" id="score2" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
+                </div>
+                <div class="score-presets">
+                    <button class="btn-preset" onclick="setJudgeScore(2, 7.5)">7.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(2, 8.0)">8.0</button>
+                    <button class="btn-preset" onclick="setJudgeScore(2, 8.5)">8.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(2, 9.0)">9.0</button>
+                </div>
+            </div>
+
+            <!-- Judge 3 -->
+            <div class="judge-card" id="card-3">
+                <span class="judge-title">JUDGE 3</span>
+                <span class="status-badge" id="badge-3">PENDING</span>
+                <div class="score-input-wrapper">
+                    <input type="number" id="score3" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
+                </div>
+                <div class="score-presets">
+                    <button class="btn-preset" onclick="setJudgeScore(3, 7.5)">7.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(3, 8.0)">8.0</button>
+                    <button class="btn-preset" onclick="setJudgeScore(3, 8.5)">8.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(3, 9.0)">9.0</button>
+                </div>
+            </div>
+
+            <!-- Judge 4 -->
+            <div class="judge-card" id="card-4">
+                <span class="judge-title">JUDGE 4</span>
+                <span class="status-badge" id="badge-4">PENDING</span>
+                <div class="score-input-wrapper">
+                    <input type="number" id="score4" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
+                </div>
+                <div class="score-presets">
+                    <button class="btn-preset" onclick="setJudgeScore(4, 7.5)">7.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(4, 8.0)">8.0</button>
+                    <button class="btn-preset" onclick="setJudgeScore(4, 8.5)">8.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(4, 9.0)">9.0</button>
+                </div>
+            </div>
+
+            <!-- Judge 5 -->
+            <div class="judge-card" id="card-5">
+                <span class="judge-title">JUDGE 5</span>
+                <span class="status-badge" id="badge-5">PENDING</span>
+                <div class="score-input-wrapper">
+                    <input type="number" id="score5" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
+                </div>
+                <div class="score-presets">
+                    <button class="btn-preset" onclick="setJudgeScore(5, 7.5)">7.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(5, 8.0)">8.0</button>
+                    <button class="btn-preset" onclick="setJudgeScore(5, 8.5)">8.5</button>
+                    <button class="btn-preset" onclick="setJudgeScore(5, 9.0)">9.0</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Total Score & Timer Row -->
+        <div class="dashboard-row">
+            
+            <!-- Total Score Panel -->
+            <div class="total-score-card">
+                <div class="total-score-title">
+                    <span>FINAL TOTAL SCORE</span>
+                    <span id="active-belt-tag" style="color: var(--aka-red); font-weight: 900;">🔴 AKA</span>
+                </div>
+                
+                <div class="total-score-display" id="totalScore">0.0</div>
+
+                <div class="score-formula" id="scoreFormula">
+                    WKF System: Sum of middle 3 scores (Highest & Lowest dropped)
+                </div>
+            </div>
+
+            <!-- Performance Timer Panel -->
+            <div class="timer-card">
+                <div class="total-score-title">PERFORMANCE TIMER</div>
+                
+                <div class="timer-display" id="timerDisplay">00:00.00</div>
+
+                <div class="timer-controls">
+                    <button class="btn-action btn-primary" id="btn-timer-start" onclick="toggleTimer()">START</button>
+                    <button class="btn-action btn-secondary" onclick="resetTimer()">RESET</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controls Action Bar -->
+        <div class="controls-bar">
+            <button class="btn-action btn-primary" style="flex: 2; font-size: 16px;" onclick="calculateScore(true)">
+                ⚡ SUBMIT & CALCULATE SCORES
+            </button>
+            <button class="btn-action btn-secondary" onclick="resetAll()">
+                CLEAR ALL
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Developed by <strong>Okinavan Shito Ryu Karate Do India</strong> • WKF Championship Kata System
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentBelt = 'aka';
+        let timerInterval = null;
+        let elapsedMs = 0;
+        let isTimerRunning = false;
+
+        function setBelt(belt) {
+            currentBelt = belt;
+            const matchCard = document.getElementById('match-card');
+            const akaBadge = document.getElementById('badge-aka');
+            const aoBadge = document.getElementById('badge-ao');
+            const beltTag = document.getElementById('active-belt-tag');
+
+            if (belt === 'aka') {
+                matchCard.classList.remove('ao-active');
+                matchCard.classList.add('aka-active');
+                akaBadge.classList.remove('inactive');
+                aoBadge.classList.add('inactive');
+                beltTag.innerText = '🔴 AKA';
+                beltTag.style.color = 'var(--aka-red)';
+            } else {
+                matchCard.classList.remove('aka-active');
+                matchCard.classList.add('ao-active');
+                aoBadge.classList.remove('inactive');
+                akaBadge.classList.add('inactive');
+                beltTag.innerText = '🔵 AO';
+                beltTag.style.color = 'var(--ao-blue)';
+            }
+        }
+
+        function setJudgeScore(judgeNum, scoreVal) {
+            const input = document.getElementById(`score${judgeNum}`);
+            input.value = scoreVal.toFixed(1);
+            calculateScore();
+        }
+
+        function calculateScore(playAudio = false) {
+            const scoresRaw = [];
+            let validCount = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const val = parseFloat(document.getElementById(`score${i}`).value);
+                if (!isNaN(val) && val >= 0) {
+                    const clamped = Math.min(10, Math.max(0, val));
+                    scoresRaw.push({ index: i, score: clamped });
+                    validCount++;
+                } else {
+                    scoresRaw.push({ index: i, score: null });
+                }
+            }
+
+            // Reset card statuses
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById(`card-${i}`);
+                const badge = document.getElementById(`badge-${i}`);
+                card.className = 'judge-card';
+                badge.innerText = 'PENDING';
+            }
+
+            if (validCount < 5) {
+                document.getElementById('totalScore').innerText = '0.0';
+                document.getElementById('scoreFormula').innerText = `Enter all 5 judge scores (${validCount}/5 entered)`;
+                return;
+            }
+
+            // All 5 judge scores entered -> Sort to find min and max
+            const sorted = [...scoresRaw].sort((a, b) => a.score - b.score);
+            const lowest = sorted[0];
+            const highest = sorted[4];
+            const middle = sorted.slice(1, 4);
+
+            const total = middle.reduce((acc, curr) => acc + curr.score, 0);
+
+            // Apply card UI statuses
+            scoresRaw.forEach(item => {
+                const card = document.getElementById(`card-${item.index}`);
+                const badge = document.getElementById(`badge-${item.index}`);
+
+                if (item.index === lowest.index) {
+                    card.classList.add('status-dropped');
+                    badge.innerText = 'LOW DROPPED';
+                } else if (item.index === highest.index) {
+                    card.classList.add('status-dropped');
+                    badge.innerText = 'HIGH DROPPED';
+                } else {
+                    card.classList.add('status-counted');
+                    badge.innerText = 'COUNTED ★';
+                }
+            });
+
+            document.getElementById('totalScore').innerText = total.toFixed(1);
+            
+            const middleStr = middle.map(m => `J${m.index}: ${m.score.toFixed(1)}`).join(' + ');
+            document.getElementById('scoreFormula').innerText = `Counted: (${middleStr}) = ${total.toFixed(1)} (J${lowest.index}:${lowest.score.toFixed(1)} & J${highest.index}:${highest.score.toFixed(1)} dropped)`;
+
+            if (playAudio) {
+                playBuzzerSound();
+            }
+        }
+
+        /* Timer Controls */
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer-start');
+            if (!isTimerRunning) {
+                isTimerRunning = true;
+                btn.innerText = 'STOP';
+                btn.className = 'btn-action btn-danger';
+                const startTime = Date.now() - elapsedMs;
+                timerInterval = setInterval(() => {
+                    elapsedMs = Date.now() - startTime;
+                    updateTimerDisplay();
+                }, 10);
+            } else {
+                isTimerRunning = false;
+                btn.innerText = 'START';
+                btn.className = 'btn-action btn-primary';
+                clearInterval(timerInterval);
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = String(Math.floor((elapsedMs / 60000) % 60)).padStart(2, '0');
+            const secs = String(Math.floor((elapsedMs / 1000) % 60)).padStart(2, '0');
+            const ms = String(Math.floor((elapsedMs / 10) % 100)).padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${mins}:${secs}.${ms}`;
         }
 
         function resetTimer() {
-            clearInterval(timer);
-            running = false;
-            milliseconds = 0;
-            document.getElementById('timer').innerText = "00:00:00";
-            document.getElementById('startStopBtn').innerText = 'Start';
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            elapsedMs = 0;
+            updateTimerDisplay();
+            const btn = document.getElementById('btn-timer-start');
+            btn.innerText = 'START';
+            btn.className = 'btn-action btn-primary';
         }
 
-        function validateScore(input) {
-            if (parseFloat(input.value) > 10) {
-                input.value = 10;
+        function resetAll() {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`score${i}`).value = '';
+                const card = document.getElementById(`card-${i}`);
+                const badge = document.getElementById(`badge-${i}`);
+                card.className = 'judge-card';
+                badge.innerText = 'PENDING';
+            }
+            document.getElementById('athleteName').value = '';
+            document.getElementById('totalScore').innerText = '0.0';
+            document.getElementById('scoreFormula').innerText = 'WKF System: Sum of middle 3 scores (Highest & Lowest dropped)';
+            resetTimer();
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
             }
         }
 
-        function calculateScore() {
-    let scores = [
-        parseFloat(document.getElementById('score1').value) || 0,
-        parseFloat(document.getElementById('score2').value) || 0,
-        parseFloat(document.getElementById('score3').value) || 0,
-        parseFloat(document.getElementById('score4').value) || 0,
-        parseFloat(document.getElementById('score5').value) || 0
-    ];
-
-    let sortedScores = [...scores].sort((a, b) => a - b);
-    let middleScores = sortedScores.slice(1, 4);
-    let sum = middleScores.reduce((acc, val) => acc + val, 0);
-
-    document.querySelectorAll('input').forEach(input => {
-        input.classList.remove('selected-score');
-    });
-
-    // Create a copy of middleScores to track which values are used
-    let tempMiddle = [...middleScores];
-
-    scores.forEach((score, index) => {
-        let pos = tempMiddle.indexOf(score);
-        if (pos !== -1) {
-            document.getElementById(`score${index + 1}`).classList.add('selected-score');
-            tempMiddle.splice(pos, 1); // Remove the matched score to prevent duplicate matching
+        /* Web Audio Synthesizer Beep */
+        function playBuzzerSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.4);
+            } catch (e) {}
         }
-    });
 
-    document.getElementById('result').innerText = `Total Score: ${sum.toFixed(1)}`;
-}
-
-        function resetScores() {
-            document.querySelectorAll('input').forEach(input => {
-                input.value = '';
-                input.classList.remove('selected-score');
-            });
-            document.getElementById('result').innerText = '';
-        }
+        // Keyboard Shortcuts: Space to Start/Stop timer, R to Reset timer
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') {
+                return;
+            }
+            if (e.code === 'Space') {
+                e.preventDefault();
+                toggleTimer();
+            } else if (e.code === 'KeyR') {
+                resetTimer();
+            }
+        });
     </script>
 </body>
 </html>
