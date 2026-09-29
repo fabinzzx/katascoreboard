@@ -18,11 +18,12 @@
             background-color: #000000;
             color: #ffffff;
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: clamp(10px, 2vw, 20px) clamp(12px, 2.5vw, 28px);
             overflow-x: hidden;
         }
 
@@ -32,25 +33,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 14px 20px;
             background: #0d0d0d;
             border: 1px solid #2e2e2e;
             border-radius: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .header-title {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .header-title h1 {
-            font-size: 26px;
+            font-size: clamp(18px, 2.2vw, 26px);
             font-weight: 900;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: #ffffff;
+            white-space: nowrap;
         }
 
         /* 3-Way Mode Selector: AKA, AO, INDIVIDUAL */
@@ -60,15 +65,17 @@
             overflow: hidden;
             border: 1px solid #333333;
             background: #171717;
+            flex-shrink: 0;
         }
 
         .belt-badge span {
-            padding: 8px 18px;
-            font-size: 13px;
+            padding: 8px 14px;
+            font-size: clamp(11px, 1.2vw, 13px);
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .belt-badge .aka {
@@ -94,19 +101,21 @@
 
         .header-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn-minimal {
             background: #171717;
             border: 1px solid #333333;
             color: #ffffff;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: clamp(11px, 1.2vw, 13px);
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .btn-minimal:hover {
@@ -115,12 +124,12 @@
             border-color: #ffffff;
         }
 
-        /* Full Width Main Workspace (Edge to Edge, Zero Side Margins) */
+        /* Full Width Main Workspace */
         .main-container {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         /* Athlete Info Card */
@@ -128,7 +137,7 @@
             background: #0d0d0d;
             border: 1px solid #2e2e2e;
             border-radius: 14px;
-            padding: 20px 24px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -151,7 +160,7 @@
         }
 
         .athlete-card label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -162,12 +171,13 @@
             background: #171717;
             border: 1px solid #333333;
             border-radius: 8px;
-            padding: 14px 18px;
+            padding: 12px 16px;
             color: #ffffff;
-            font-size: 20px;
+            font-size: clamp(16px, 2vw, 20px);
             font-weight: 700;
             outline: none;
             transition: border-color 0.2s ease;
+            width: 100%;
         }
 
         .athlete-card input:focus {
@@ -175,11 +185,11 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
-        /* 5 Judges Grid (Spans Full Width) */
+        /* 5 Judges Grid - Fully Responsive Across Devices */
         .judges-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 12px;
             width: 100%;
         }
 
@@ -187,13 +197,14 @@
             background: #0d0d0d;
             border: 1px solid #2e2e2e;
             border-radius: 14px;
-            padding: 20px 14px;
+            padding: 16px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             position: relative;
             transition: all 0.2s ease;
+            min-width: 0;
         }
 
         .judge-card.focused {
@@ -203,22 +214,22 @@
         }
 
         .judge-title {
-            font-size: 13px;
+            font-size: clamp(10px, 1.1vw, 13px);
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             color: #a1a1aa;
             text-transform: uppercase;
         }
 
         .score-input {
             width: 100%;
-            height: 75px;
+            height: clamp(55px, 9vh, 75px);
             background: #171717;
             border: 1px solid #333333;
             border-radius: 10px;
             color: #ffffff;
             font-family: inherit;
-            font-size: 42px;
+            font-size: clamp(28px, 4vw, 42px);
             font-weight: 900;
             text-align: center;
             outline: none;
@@ -232,14 +243,15 @@
 
         /* Counted & Dropped Badges */
         .status-badge {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
-            padding: 3px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             opacity: 0;
             transition: 0.2s;
+            white-space: nowrap;
         }
 
         .judge-card.status-counted {
@@ -289,9 +301,9 @@
             background: #171717;
             border: 1px solid #333333;
             color: #ffffff;
-            padding: 8px 0;
+            padding: 6px 0;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: clamp(10px, 1vw, 12px);
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
@@ -303,12 +315,12 @@
             border-color: #ffffff;
         }
 
-        /* Minimal Score Dashboard (Full Width) */
+        /* Minimal Score Dashboard */
         .score-dashboard {
             background: #0d0d0d;
             border: 1px solid #2e2e2e;
             border-radius: 14px;
-            padding: 28px;
+            padding: clamp(16px, 3vh, 28px);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -318,33 +330,34 @@
         }
 
         .total-score-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: #a1a1aa;
         }
 
         .total-score-number {
-            font-size: 88px;
+            font-size: clamp(52px, 8vw, 92px);
             font-weight: 900;
             color: #f59e0b;
             text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
             line-height: 1;
-            margin: 12px 0;
+            margin: 8px 0;
         }
 
         .score-formula-text {
-            font-size: 13px;
+            font-size: clamp(11px, 1.2vw, 13px);
             font-weight: 600;
             color: #a1a1aa;
             font-family: monospace;
+            word-break: break-word;
         }
 
         /* Control Action Buttons */
         .controls-bar {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             width: 100%;
         }
 
@@ -353,11 +366,11 @@
             background: #ffffff;
             color: #000000;
             border: 1px solid #ffffff;
-            padding: 18px;
+            padding: clamp(14px, 2vh, 18px);
             border-radius: 10px;
-            font-size: 16px;
+            font-size: clamp(13px, 1.6vw, 16px);
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -372,11 +385,11 @@
             background: #171717;
             color: #ffffff;
             border: 1px solid #333333;
-            padding: 18px;
+            padding: clamp(14px, 2vh, 18px);
             border-radius: 10px;
-            font-size: 16px;
+            font-size: clamp(13px, 1.6vw, 16px);
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -387,24 +400,24 @@
 
         /* Keyboard Navigation Hint */
         .nav-hint {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #71717a;
             text-align: center;
-            margin-top: -5px;
+            margin-top: -4px;
         }
 
         .nav-hint kbd {
             background: #18181b;
             border: 1px solid #3f3f46;
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: 4px;
             color: #ffffff;
             font-family: inherit;
         }
 
         /* ============================================================
-           GIANT FULL-SCREEN 7-SECOND RESULT REVEAL OVERLAY PAGE
+           GIANT FULL-SCREEN RESULT REVEAL OVERLAY PAGE (TV & MOBILE OPTIMIZED)
            ============================================================ */
         #result-screen-overlay {
             position: fixed;
@@ -416,8 +429,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 50px 30px;
+            padding: clamp(20px, 4vh, 50px) clamp(16px, 4vw, 40px);
             animation: popIn 0.3s ease;
+            overflow-y: auto;
         }
 
         @keyframes popIn {
@@ -426,9 +440,9 @@
         }
 
         .result-header-badge {
-            padding: 12px 36px;
+            padding: clamp(8px, 1.5vh, 12px) clamp(20px, 3vw, 36px);
             border-radius: 50px;
-            font-size: 24px;
+            font-size: clamp(14px, 2.2vw, 24px);
             font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -450,44 +464,47 @@
         }
 
         .result-athlete-name {
-            font-size: 64px;
+            font-size: clamp(24px, 5.5vw, 64px);
             font-weight: 900;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 6px;
             color: #ffffff;
+            word-break: break-word;
         }
 
         .result-giant-score {
-            font-size: 180px;
+            font-size: clamp(80px, 18vw, 180px);
             font-weight: 900;
             color: #f59e0b;
             text-shadow: 0 0 60px rgba(245, 158, 11, 0.5);
-            line-height: 0.9;
-            margin: 20px 0;
+            line-height: 0.95;
+            margin: 12px 0;
             text-align: center;
         }
 
         /* 5 Judge Boxes Row on Result Screen */
         .result-judges-row {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             justify-content: center;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
+            flex-wrap: wrap;
         }
 
         .result-judge-box {
-            flex: 1;
+            flex: 1 1 120px;
             background: #0d0d0d;
             border: 1px solid #2e2e2e;
             border-radius: 14px;
-            padding: 18px 10px;
+            padding: clamp(10px, 2vh, 18px) 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            min-width: 80px;
         }
 
         .result-judge-box.status-counted {
@@ -502,13 +519,13 @@
         }
 
         .result-judge-num {
-            font-size: 12px;
+            font-size: clamp(10px, 1.1vw, 12px);
             font-weight: 800;
             color: #a1a1aa;
         }
 
         .result-judge-val {
-            font-size: 40px;
+            font-size: clamp(24px, 3.5vw, 40px);
             font-weight: 900;
             color: #ffffff;
         }
@@ -523,7 +540,7 @@
         }
 
         .result-judge-tag {
-            font-size: 10px;
+            font-size: clamp(8px, 1vw, 10px);
             font-weight: 800;
             padding: 2px 6px;
             border-radius: 4px;
@@ -548,7 +565,7 @@
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 15px;
+            margin-top: 10px;
             border: 1px solid #27272a;
         }
 
@@ -560,20 +577,22 @@
         }
 
         .result-return-hint {
-            font-size: 13px;
+            font-size: clamp(11px, 1.2vw, 13px);
             font-weight: 700;
             color: #a1a1aa;
-            margin-top: 10px;
+            margin-top: 8px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn-return-now {
             background: #ffffff;
             color: #000000;
             border: none;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 800;
@@ -589,7 +608,7 @@
             background: #27272a;
             color: #ffffff;
             border: 1px solid #3f3f46;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 800;
@@ -604,8 +623,8 @@
 
         /* Footer */
         footer {
-            margin-top: 30px;
-            font-size: 13px;
+            margin-top: 20px;
+            font-size: 12px;
             color: #71717a;
             text-align: center;
             font-weight: 600;
@@ -622,7 +641,7 @@
         footer a {
             color: #a1a1aa;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.5px;
             transition: color 0.2s ease;
         }
@@ -632,15 +651,83 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 900px) {
-            .judges-grid {
-                grid-template-columns: repeat(3, 1fr);
+        /* ============================================================
+           BREAKPOINTS & MEDIA QUERIES FOR ALL SCREEN TYPES
+           ============================================================ */
+
+        /* Tablets & Medium Displays (768px - 1024px) */
+        @media (max-width: 1024px) {
+            header {
+                justify-content: center;
             }
-            .result-giant-score {
-                font-size: 110px;
+            .judges-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+            }
+            .judge-card {
+                padding: 12px 6px;
+            }
+        }
+
+        /* Small Tablets & Mobile Devices (< 768px) */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .header-title {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            /* 2 Columns for Judges 1-4, Judge 5 spans full 2 columns evenly! */
+            .judges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #card-5 {
+                grid-column: span 2;
+            }
+            .controls-bar {
+                flex-direction: column;
+            }
+            .btn-submit, .btn-reset {
+                width: 100%;
+                flex: none;
+            }
+        }
+
+        /* Extra Small Mobile Screens (< 450px) */
+        @media (max-width: 450px) {
+            body {
+                padding: 10px 12px;
+            }
+            .belt-badge span {
+                padding: 6px 10px;
+                font-size: 11px;
             }
             .result-judges-row {
+                display: flex;
                 flex-wrap: wrap;
+            }
+        }
+
+        /* Large TVs & 4K Monitors (>= 1600px) */
+        @media (min-width: 1600px) {
+            .main-container {
+                max-width: 1600px;
+                margin: 0 auto;
+            }
+            header {
+                max-width: 1600px;
+                margin: 0 auto 20px auto;
+            }
+            .score-input {
+                height: 85px;
+                font-size: 48px;
             }
         }
     </style>
