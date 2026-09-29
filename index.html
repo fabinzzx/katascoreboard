@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKF Kata Scoreboard - Championship Edition</title>
+    <title>WKF Kata Scoreboard - Okinavan Shito Ryu Karate Academy</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,8 +91,8 @@
         }
 
         .belt-badge span {
-            padding: 4px 12px;
-            font-size: 11px;
+            padding: 6px 14px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 1px;
             cursor: pointer;
@@ -465,6 +465,198 @@
             margin-top: 10px;
         }
 
+        /* ============================================================
+           GIANT FULL-SCREEN 7-SECOND RESULT REVEAL OVERLAY PAGE
+           ============================================================ */
+        #result-screen-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #030712;
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.2) 0%, transparent 70%),
+                radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.15) 0%, transparent 60%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            color: white;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-header-badge {
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .result-header-badge.aka {
+            background: var(--aka-gradient);
+            border: 2px solid #f87171;
+            color: white;
+        }
+
+        .result-header-badge.ao {
+            background: var(--ao-gradient);
+            border: 2px solid #60a5fa;
+            color: white;
+        }
+
+        .result-athlete-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 54px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 10px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+
+        .result-kata-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Ultra Large Score */
+        .result-giant-score {
+            font-family: 'Orbitron', monospace;
+            font-size: 160px;
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 0 0 60px rgba(245, 158, 11, 0.6), 0 0 100px rgba(245, 158, 11, 0.3);
+            line-height: 0.9;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* 5 Judge Scores Row on Result Screen */
+        .result-judges-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .result-judge-box {
+            flex: 1;
+            background: rgba(18, 26, 43, 0.9);
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            padding: 16px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-judge-box.status-counted {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .result-judge-box.status-dropped {
+            border-color: rgba(239, 68, 68, 0.4);
+            background: rgba(239, 68, 68, 0.1);
+            opacity: 0.5;
+        }
+
+        .result-judge-num {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .result-judge-val {
+            font-family: 'Orbitron', monospace;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        .result-judge-box.status-counted .result-judge-val {
+            color: #34d399;
+        }
+
+        .result-judge-box.status-dropped .result-judge-val {
+            color: #f87171;
+            text-decoration: line-through;
+        }
+
+        .result-judge-tag {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .result-judge-box.status-counted .result-judge-tag {
+            background: #10b981;
+            color: #064e3b;
+        }
+
+        .result-judge-box.status-dropped .result-judge-tag {
+            background: #ef4444;
+            color: #450a0a;
+        }
+
+        /* 7-Second Countdown Bar */
+        .result-timer-bar-wrapper {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .result-timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            transition: width 7s linear;
+        }
+
+        .result-return-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-return-now {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         /* Footer */
         footer {
             margin-top: 30px;
@@ -489,17 +681,11 @@
             .match-info-card {
                 grid-template-columns: 1fr;
             }
-        }
-
-        @media (max-width: 600px) {
-            .judges-grid {
-                grid-template-columns: 1fr;
+            .result-giant-score {
+                font-size: 100px;
             }
-            .total-score-display {
-                font-size: 54px;
-            }
-            .timer-display {
-                font-size: 36px;
+            .result-judges-row {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -510,7 +696,7 @@
     <header>
         <div class="header-title">
             <h1>KATA SCOREBOARD</h1>
-            <div className="belt-badge">
+            <div class="belt-badge">
                 <span id="badge-aka" class="aka" onclick="setBelt('aka')">🔴 AKA</span>
                 <span id="badge-ao" class="ao inactive" onclick="setBelt('ao')">🔵 AO</span>
             </div>
@@ -677,7 +863,7 @@
         <!-- Controls Action Bar -->
         <div class="controls-bar">
             <button class="btn-action btn-primary" style="flex: 2; font-size: 16px;" onclick="calculateScore(true)">
-                ⚡ SUBMIT & CALCULATE SCORES
+                ⚡ SUBMIT & SHOW GIANT RESULT PAGE
             </button>
             <button class="btn-action btn-secondary" onclick="resetAll()">
                 CLEAR ALL
@@ -686,9 +872,45 @@
 
     </div>
 
+    <!-- ============================================================
+         GIANT FULL-SCREEN 7-SECOND RESULT REVEAL OVERLAY PAGE
+         ============================================================ -->
+    <div id="result-screen-overlay">
+        <div class="result-header-badge aka" id="res-overlay-badge">
+            🔴 AKA COMPETITOR RESULT
+        </div>
+
+        <div style="text-align: center;">
+            <div class="result-athlete-name" id="res-overlay-name">
+                ATHLETE NAME
+            </div>
+            <div class="result-kata-name" id="res-overlay-kata">
+                KATA NAME
+            </div>
+        </div>
+
+        <div class="result-giant-score" id="res-overlay-score">
+            24.6
+        </div>
+
+        <div class="result-judges-row" id="res-overlay-judges">
+            <!-- 5 Judge boxes generated by JS -->
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="result-timer-bar-wrapper">
+                <div class="result-timer-bar" id="res-timer-bar"></div>
+            </div>
+            <div class="result-return-hint">
+                <span>Auto-returning to scoreboard in 7s...</span>
+                <button class="btn-return-now" onclick="hideResultScreen()">Return Now</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
-        Developed by <strong>Okinavan Shito Ryu Karate Do India</strong> • WKF Championship Kata System
+        Developed by <strong>Okinavan Shito Ryu Karate Academy</strong> • WKF Championship Kata System
     </footer>
 
     <!-- JavaScript Logic -->
@@ -697,6 +919,8 @@
         let timerInterval = null;
         let elapsedMs = 0;
         let isTimerRunning = false;
+
+        let resultAutoReturnTimer = null;
 
         function setBelt(belt) {
             currentBelt = belt;
@@ -725,10 +949,10 @@
         function setJudgeScore(judgeNum, scoreVal) {
             const input = document.getElementById(`score${judgeNum}`);
             input.value = scoreVal.toFixed(1);
-            calculateScore();
+            calculateScore(false);
         }
 
-        function calculateScore(playAudio = false) {
+        function calculateScore(triggerGiantPage = false) {
             const scoresRaw = [];
             let validCount = 0;
 
@@ -754,6 +978,9 @@
             if (validCount < 5) {
                 document.getElementById('totalScore').innerText = '0.0';
                 document.getElementById('scoreFormula').innerText = `Enter all 5 judge scores (${validCount}/5 entered)`;
+                if (triggerGiantPage) {
+                    alert('Please enter scores for all 5 judges before submitting!');
+                }
                 return;
             }
 
@@ -787,9 +1014,85 @@
             const middleStr = middle.map(m => `J${m.index}: ${m.score.toFixed(1)}`).join(' + ');
             document.getElementById('scoreFormula').innerText = `Counted: (${middleStr}) = ${total.toFixed(1)} (J${lowest.index}:${lowest.score.toFixed(1)} & J${highest.index}:${highest.score.toFixed(1)} dropped)`;
 
-            if (playAudio) {
-                playBuzzerSound();
+            if (triggerGiantPage) {
+                showGiantResultPage(total, scoresRaw, lowest.index, highest.index);
             }
+        }
+
+        /* Giant 7-Second Result Overlay Page */
+        function showGiantResultPage(totalScore, scoresRaw, lowestIdx, highestIdx) {
+            playBuzzerSound();
+
+            const overlay = document.getElementById('result-screen-overlay');
+            const badge = document.getElementById('res-overlay-badge');
+            const nameEl = document.getElementById('res-overlay-name');
+            const kataEl = document.getElementById('res-overlay-kata');
+            const scoreEl = document.getElementById('res-overlay-score');
+            const judgesRow = document.getElementById('res-overlay-judges');
+            const timerBar = document.getElementById('res-timer-bar');
+
+            // Competitor & Kata Details
+            const athleteName = document.getElementById('athleteName').value.trim() || (currentBelt === 'aka' ? 'AKA COMPETITOR' : 'AO COMPETITOR');
+            const kataName = document.getElementById('kataSelect').value;
+
+            nameEl.innerText = athleteName;
+            kataEl.innerText = `KATA: ${kataName}`;
+            scoreEl.innerText = totalScore.toFixed(1);
+
+            if (currentBelt === 'aka') {
+                badge.className = 'result-header-badge aka';
+                badge.innerText = '🔴 AKA RESULT';
+            } else {
+                badge.className = 'result-header-badge ao';
+                badge.innerText = '🔵 AO RESULT';
+            }
+
+            // Build 5 judge boxes
+            judgesRow.innerHTML = '';
+            scoresRaw.forEach(item => {
+                const box = document.createElement('div');
+                let statusClass = 'status-counted';
+                let tagText = 'COUNTED ★';
+
+                if (item.index === lowestIdx) {
+                    statusClass = 'status-dropped';
+                    tagText = 'LOW';
+                } else if (item.index === highestIdx) {
+                    statusClass = 'status-dropped';
+                    tagText = 'HIGH';
+                }
+
+                box.className = `result-judge-box ${statusClass}`;
+                box.innerHTML = `
+                    <span class="result-judge-num">JUDGE ${item.index}</span>
+                    <span class="result-judge-val">${item.score.toFixed(1)}</span>
+                    <span class="result-judge-tag">${tagText}</span>
+                `;
+                judgesRow.appendChild(box);
+            });
+
+            // Reset timer bar animation
+            timerBar.style.transition = 'none';
+            timerBar.style.width = '100%';
+            setTimeout(() => {
+                timerBar.style.transition = 'width 7s linear';
+                timerBar.style.width = '0%';
+            }, 50);
+
+            // Display overlay
+            overlay.style.display = 'flex';
+
+            // Auto-return timer after 7 seconds
+            if (resultAutoReturnTimer) clearTimeout(resultAutoReturnTimer);
+            resultAutoReturnTimer = setTimeout(() => {
+                hideResultScreen();
+            }, 7000);
+        }
+
+        function hideResultScreen() {
+            const overlay = document.getElementById('result-screen-overlay');
+            overlay.style.display = 'none';
+            if (resultAutoReturnTimer) clearTimeout(resultAutoReturnTimer);
         }
 
         /* Timer Controls */
@@ -830,6 +1133,7 @@
         }
 
         function resetAll() {
+            hideResultScreen();
             for (let i = 1; i <= 5; i++) {
                 document.getElementById(`score${i}`).value = '';
                 const card = document.getElementById(`card-${i}`);
@@ -862,7 +1166,7 @@
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime);
                 gain.gain.setValueAtTime(0.3, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
                 osc.connect(gain);
@@ -872,8 +1176,12 @@
             } catch (e) {}
         }
 
-        // Keyboard Shortcuts: Space to Start/Stop timer, R to Reset timer
+        // Keyboard Shortcuts: Space to Start/Stop timer, R to Reset timer, ESC to close result screen
         document.addEventListener('keydown', (e) => {
+            if (e.code === 'Escape') {
+                hideResultScreen();
+                return;
+            }
             if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') {
                 return;
             }
