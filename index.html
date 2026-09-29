@@ -3,31 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKF Kata Scoreboard - Okinavan Shito Ryu Karate Academy</title>
+    <title>Kata Scoreboard - Okinavan Shito Ryu Karate Academy</title>
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Oswald:wght@400;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --bg-dark: #0a0e17;
-            --card-bg: rgba(18, 26, 43, 0.85);
-            --card-border: rgba(255, 255, 255, 0.12);
-            --aka-red: #dc2626;
-            --aka-gradient: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
-            --ao-blue: #2563eb;
-            --ao-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            --gold-accent: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --counted-bg: rgba(16, 185, 129, 0.15);
-            --counted-border: #10b981;
-            --dropped-bg: rgba(239, 68, 68, 0.1);
-            --dropped-border: rgba(239, 68, 68, 0.4);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -36,82 +14,75 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.12) 0%, transparent 50%);
-            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111827;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
-            overflow-x: hidden;
+            padding: 24px;
         }
 
-        /* Top Header Navigation */
+        /* Minimal Header */
         header {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px 24px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            margin-bottom: 24px;
         }
 
         .header-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .header-title h1 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 28px;
-            letter-spacing: 2px;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #000000;
         }
 
         .belt-badge {
             display: flex;
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid #000000;
         }
 
         .belt-badge span {
-            padding: 6px 14px;
-            font-size: 12px;
+            padding: 6px 16px;
+            font-size: 13px;
             font-weight: 800;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
         }
 
         .belt-badge .aka {
-            background: var(--aka-gradient);
-            color: white;
+            background: #dc2626;
+            color: #ffffff;
         }
 
         .belt-badge .ao {
-            background: var(--ao-gradient);
-            color: white;
+            background: #2563eb;
+            color: #ffffff;
         }
 
         .belt-badge span.inactive {
-            opacity: 0.3;
-            filter: grayscale(80%);
+            opacity: 0.25;
+            background: #f3f4f6;
+            color: #000000;
         }
 
         .header-actions {
@@ -119,193 +90,172 @@
             gap: 10px;
         }
 
-        .btn-icon {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
+        .btn-minimal {
+            background: #ffffff;
+            border: 2px solid #000000;
+            color: #000000;
             padding: 8px 16px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        .btn-icon:hover {
-            background: rgba(255, 255, 255, 0.18);
-            transform: translateY(-2px);
+        .btn-minimal:hover {
+            background: #000000;
+            color: #ffffff;
         }
 
-        /* Main Container */
+        /* Main Workspace */
         .main-container {
             width: 100%;
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        /* Athlete Info & Kata Selection */
-        .match-info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 20px 24px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            transition: border-color 0.4s ease;
-        }
-
-        .match-info-card.aka-active {
-            border-color: rgba(220, 38, 38, 0.6);
-            box-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
-        }
-
-        .match-info-card.ao-active {
-            border-color: rgba(37, 99, 235, 0.6);
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.15);
-        }
-
-        .input-group {
+            max-width: 1100px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 24px;
         }
 
-        .input-group label {
-            font-size: 11px;
-            font-weight: 700;
+        /* Athlete Info Minimal Card */
+        .athlete-card {
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .athlete-card label {
+            font-size: 12px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
+            letter-spacing: 1px;
+            color: #6b7280;
         }
 
-        .input-group input, .input-group select {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
+        .athlete-card input {
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 8px;
             padding: 12px 16px;
-            color: white;
-            font-size: 15px;
-            font-weight: 600;
+            color: #000000;
+            font-size: 18px;
+            font-weight: 700;
             outline: none;
-            transition: 0.3s;
         }
 
-        .input-group input:focus, .input-group select:focus {
-            border-color: var(--gold-accent);
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        .athlete-card input:focus {
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* 5-Judge Grid */
+        /* 5 Judges Grid */
         .judges-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 14px;
+            gap: 16px;
         }
 
         .judge-card {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: 18px;
-            padding: 16px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            padding: 18px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 12px;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
+        }
+
+        .judge-card.focused {
+            border-color: #000000;
+            background: #f9fafb;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15);
         }
 
         .judge-title {
-            font-family: 'Oswald', sans-serif;
             font-size: 14px;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #374151;
             text-transform: uppercase;
-        }
-
-        .score-input-wrapper {
-            width: 100%;
-            position: relative;
         }
 
         .score-input {
             width: 100%;
             height: 70px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            color: white;
-            font-family: 'Orbitron', monospace;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            color: #000000;
+            font-family: inherit;
             font-size: 38px;
-            font-weight: 900;
+            font-weight: 800;
             text-align: center;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .score-input:focus {
-            border-color: var(--gold-accent);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+            background: #ffffff;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
         }
 
-        /* Counted & Dropped Status Styles */
-        .judge-card.status-counted {
-            background: var(--counted-bg);
-            border-color: var(--counted-border);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
-        }
-
-        .judge-card.status-counted .score-input {
-            color: #34d399;
-            border-color: var(--counted-border);
-            text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
-        }
-
-        .judge-card.status-dropped {
-            background: var(--dropped-bg);
-            border-color: var(--dropped-border);
-            opacity: 0.55;
-        }
-
-        .judge-card.status-dropped .score-input {
-            color: #f87171;
-            text-decoration: line-through;
-            border-color: var(--dropped-border);
-        }
-
+        /* Judge Status Badges */
         .status-badge {
             font-size: 10px;
             font-weight: 800;
             padding: 3px 8px;
-            border-radius: 6px;
+            border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border: 1px solid #000000;
             opacity: 0;
-            transition: 0.3s;
+            transition: 0.2s;
+        }
+
+        .judge-card.status-counted {
+            background: #ecfdf5;
+            border-color: #059669;
         }
 
         .judge-card.status-counted .status-badge {
             opacity: 1;
             background: #10b981;
-            color: #064e3b;
+            color: #ffffff;
+            border-color: #059669;
+        }
+
+        .judge-card.status-counted .score-input {
+            color: #047857;
+            border-color: #059669;
+        }
+
+        .judge-card.status-dropped {
+            background: #fef2f2;
+            border-color: #dc2626;
+            opacity: 0.6;
         }
 
         .judge-card.status-dropped .status-badge {
             opacity: 1;
             background: #ef4444;
-            color: #450a0a;
+            color: #ffffff;
+            border-color: #dc2626;
         }
 
-        /* Preset Numpad Controls */
+        .judge-card.status-dropped .score-input {
+            color: #b91c1c;
+            text-decoration: line-through;
+            border-color: #dc2626;
+        }
+
+        /* Presets */
         .score-presets {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -314,9 +264,9 @@
         }
 
         .btn-preset {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #111827;
             padding: 6px 0;
             border-radius: 6px;
             font-size: 11px;
@@ -326,241 +276,182 @@
         }
 
         .btn-preset:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: #000000;
+            color: #ffffff;
+            border-color: #000000;
         }
 
-        /* Results & Timer Dashboard Section */
-        .dashboard-row {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 20px;
-        }
-
-        .total-score-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
+        /* Minimal Score Dashboard */
+        .score-dashboard {
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
             padding: 24px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            backdrop-filter: blur(12px);
-            position: relative;
-            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .total-score-title {
+        .total-score-label {
             font-size: 13px;
             font-weight: 800;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            text-transform: uppercase;
+            color: #6b7280;
         }
 
-        .total-score-display {
-            font-family: 'Orbitron', monospace;
-            font-size: 80px;
+        .total-score-number {
+            font-size: 76px;
             font-weight: 900;
-            color: var(--gold-accent);
-            text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+            color: #000000;
             line-height: 1;
-            margin: 16px 0;
-            text-align: center;
+            margin: 12px 0;
         }
 
-        .score-formula {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            font-family: monospace;
+        .score-formula-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4b5563;
         }
 
-        /* Timer Box */
-        .timer-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(12px);
-        }
-
-        .timer-display {
-            font-family: 'Orbitron', monospace;
-            font-size: 48px;
-            font-weight: 900;
-            color: #38bdf8;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-            letter-spacing: 2px;
-            margin: 10px 0;
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .btn-action {
-            flex: 1;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            color: white;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-primary:hover {
-            brightness: 1.1;
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-            color: white;
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-danger:hover {
-            brightness: 1.1;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Action Buttons Footer */
+        /* Control Action Buttons */
         .controls-bar {
             display: flex;
             gap: 12px;
-            width: 100%;
-            margin-top: 10px;
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: #000000;
+            color: #ffffff;
+            border: 2px solid #000000;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #1f2937;
+        }
+
+        .btn-reset {
+            flex: 1;
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: #f3f4f6;
+        }
+
+        /* Keyboard Navigation Hint */
+        .nav-hint {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-align: center;
+            margin-top: -10px;
+        }
+
+        .nav-hint kbd {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #111827;
+            font-family: inherit;
         }
 
         /* ============================================================
-           GIANT FULL-SCREEN 7-SECOND RESULT REVEAL OVERLAY PAGE
+           GIANT 7-SECOND RESULT REVEAL OVERLAY PAGE (MINIMAL WHITE/BLACK)
            ============================================================ */
         #result-screen-overlay {
             position: fixed;
             inset: 0;
             z-index: 99999;
-            background: #030712;
-            background-image: 
-                radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.2) 0%, transparent 70%),
-                radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.15) 0%, transparent 60%);
+            background: #ffffff;
+            color: #000000;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 40px 20px;
-            animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            color: white;
+            padding: 50px 24px;
+            animation: popIn 0.3s ease;
         }
 
         @keyframes popIn {
-            from { opacity: 0; transform: scale(0.92); }
+            from { opacity: 0; transform: scale(0.96); }
             to { opacity: 1; transform: scale(1); }
         }
 
         .result-header-badge {
-            padding: 10px 30px;
+            padding: 10px 32px;
             border-radius: 50px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            border: 2px solid #000000;
         }
 
         .result-header-badge.aka {
-            background: var(--aka-gradient);
-            border: 2px solid #f87171;
-            color: white;
+            background: #dc2626;
+            color: #ffffff;
         }
 
         .result-header-badge.ao {
-            background: var(--ao-gradient);
-            border: 2px solid #60a5fa;
-            color: white;
+            background: #2563eb;
+            color: #ffffff;
         }
 
         .result-athlete-name {
-            font-family: 'Oswald', sans-serif;
-            font-size: 54px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 1px;
             text-transform: uppercase;
             text-align: center;
             margin-top: 10px;
-            color: #ffffff;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            color: #000000;
         }
 
-        .result-kata-name {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* Ultra Large Score */
         .result-giant-score {
-            font-family: 'Orbitron', monospace;
             font-size: 160px;
             font-weight: 900;
-            color: var(--gold-accent);
-            text-shadow: 0 0 60px rgba(245, 158, 11, 0.6), 0 0 100px rgba(245, 158, 11, 0.3);
+            color: #000000;
             line-height: 0.9;
             margin: 20px 0;
             text-align: center;
         }
 
-        /* 5 Judge Scores Row on Result Screen */
+        /* 5 Judge Boxes Row on Result Screen */
         .result-judges-row {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
             width: 100%;
-            max-width: 1000px;
+            max-width: 900px;
         }
 
         .result-judge-box {
             flex: 1;
-            background: rgba(18, 26, 43, 0.9);
-            border: 2px solid var(--card-border);
-            border-radius: 18px;
-            padding: 16px 10px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            padding: 16px 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -568,36 +459,34 @@
         }
 
         .result-judge-box.status-counted {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.15);
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+            background: #ecfdf5;
+            border-color: #059669;
         }
 
         .result-judge-box.status-dropped {
-            border-color: rgba(239, 68, 68, 0.4);
-            background: rgba(239, 68, 68, 0.1);
-            opacity: 0.5;
+            background: #fef2f2;
+            border-color: #dc2626;
+            opacity: 0.6;
         }
 
         .result-judge-num {
             font-size: 12px;
             font-weight: 800;
-            color: var(--text-muted);
-            letter-spacing: 1px;
+            color: #4b5563;
         }
 
         .result-judge-val {
-            font-family: 'Orbitron', monospace;
             font-size: 36px;
             font-weight: 900;
+            color: #000000;
         }
 
         .result-judge-box.status-counted .result-judge-val {
-            color: #34d399;
+            color: #047857;
         }
 
         .result-judge-box.status-dropped .result-judge-val {
-            color: #f87171;
+            color: #b91c1c;
             text-decoration: line-through;
         }
 
@@ -611,78 +500,73 @@
 
         .result-judge-box.status-counted .result-judge-tag {
             background: #10b981;
-            color: #064e3b;
+            color: #ffffff;
         }
 
         .result-judge-box.status-dropped .result-judge-tag {
             background: #ef4444;
-            color: #450a0a;
+            color: #ffffff;
         }
 
-        /* 7-Second Countdown Bar */
+        /* 7-Second Timer Bar */
         .result-timer-bar-wrapper {
             width: 100%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            background: #e5e7eb;
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
             margin-top: 15px;
+            border: 1px solid #000000;
         }
 
         .result-timer-bar {
             height: 100%;
             width: 100%;
-            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            background: #000000;
             transition: width 7s linear;
         }
 
         .result-return-hint {
             font-size: 13px;
-            color: var(--text-muted);
+            font-weight: 700;
+            color: #4b5563;
             margin-top: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .btn-return-now {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
+            background: #000000;
+            color: #ffffff;
+            border: none;
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
         }
 
         /* Footer */
         footer {
             margin-top: 30px;
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: #4b5563;
             text-align: center;
-            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         footer strong {
-            color: var(--text-main);
+            color: #000000;
         }
 
-        /* Responsive Layout */
         @media (max-width: 900px) {
             .judges-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-            .dashboard-row {
-                grid-template-columns: 1fr;
-            }
-            .match-info-card {
-                grid-template-columns: 1fr;
-            }
             .result-giant-score {
-                font-size: 100px;
+                font-size: 110px;
             }
             .result-judges-row {
                 flex-wrap: wrap;
@@ -692,7 +576,7 @@
 </head>
 <body>
 
-    <!-- Top Navigation Header -->
+    <!-- Minimal Header -->
     <header>
         <div class="header-title">
             <h1>KATA SCOREBOARD</h1>
@@ -703,62 +587,32 @@
         </div>
 
         <div class="header-actions">
-            <button class="btn-icon" onclick="resetAll()">
-                🔄 Reset Scoreboard
+            <button class="btn-minimal" onclick="resetAll()">
+                Reset Scores
             </button>
-            <button class="btn-icon" onclick="toggleFullScreen()">
-                ⛶ Fullscreen Arena Mode
+            <button class="btn-minimal" onclick="toggleFullScreen()">
+                Fullscreen Mode
             </button>
         </div>
     </header>
 
-    <!-- Main Scoreboard Workspace -->
+    <!-- Main Workspace -->
     <div class="main-container">
 
-        <!-- Competitor & Kata Details -->
-        <div class="match-info-card aka-active" id="match-card">
-            <div class="input-group">
-                <label for="athleteName">Athlete Name / Dojo</label>
-                <input type="text" id="athleteName" placeholder="e.g. Fabin Francis (Pattam Dojo)">
-            </div>
-            <div class="input-group">
-                <label for="kataSelect">Kata Name</label>
-                <select id="kataSelect">
-                    <option value="Anan">Anan</option>
-                    <option value="Anan Dai">Anan Dai</option>
-                    <option value="Annanko">Annanko</option>
-                    <option value="Chatanyara Kushanku">Chatanyara Kushanku</option>
-                    <option value="Suparinpei">Suparinpei</option>
-                    <option value="Papuren">Papuren</option>
-                    <option value="Paiku">Paiku</option>
-                    <option value="Heiku">Heiku</option>
-                    <option value="Bassai Dai">Bassai Dai</option>
-                    <option value="Bassai Sho">Bassai Sho</option>
-                    <option value="Kanku Dai">Kanku Dai</option>
-                    <option value="Kanku Sho">Kanku Sho</option>
-                    <option value="Seienchin">Seienchin</option>
-                    <option value="Seipai">Seipai</option>
-                    <option value="Nipaipo">Nipaipo</option>
-                    <option value="Matsumura Rohai">Matsumura Rohai</option>
-                    <option value="Gankaku">Gankaku</option>
-                    <option value="Unsu">Unsu</option>
-                    <option value="Goju Shi Ho Sho">Goju Shi Ho Sho</option>
-                    <option value="Goju Shi Ho Dai">Goju Shi Ho Dai</option>
-                    <option value="Other">Other / Open Kata</option>
-                </select>
-            </div>
+        <!-- Athlete Details -->
+        <div class="athlete-card">
+            <label for="athleteName">Athlete Name / Dojo</label>
+            <input type="text" id="athleteName" placeholder="Enter athlete name or dojo">
         </div>
 
-        <!-- 5 Judges Cards -->
+        <!-- 5 Judges Grid -->
         <div class="judges-grid">
             
             <!-- Judge 1 -->
             <div class="judge-card" id="card-1">
                 <span class="judge-title">JUDGE 1</span>
                 <span class="status-badge" id="badge-1">PENDING</span>
-                <div class="score-input-wrapper">
-                    <input type="number" id="score1" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
-                </div>
+                <input type="number" id="score1" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore(false)" onfocus="setFocusIndex(1)">
                 <div class="score-presets">
                     <button class="btn-preset" onclick="setJudgeScore(1, 7.5)">7.5</button>
                     <button class="btn-preset" onclick="setJudgeScore(1, 8.0)">8.0</button>
@@ -771,9 +625,7 @@
             <div class="judge-card" id="card-2">
                 <span class="judge-title">JUDGE 2</span>
                 <span class="status-badge" id="badge-2">PENDING</span>
-                <div class="score-input-wrapper">
-                    <input type="number" id="score2" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
-                </div>
+                <input type="number" id="score2" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore(false)" onfocus="setFocusIndex(2)">
                 <div class="score-presets">
                     <button class="btn-preset" onclick="setJudgeScore(2, 7.5)">7.5</button>
                     <button class="btn-preset" onclick="setJudgeScore(2, 8.0)">8.0</button>
@@ -786,9 +638,7 @@
             <div class="judge-card" id="card-3">
                 <span class="judge-title">JUDGE 3</span>
                 <span class="status-badge" id="badge-3">PENDING</span>
-                <div class="score-input-wrapper">
-                    <input type="number" id="score3" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
-                </div>
+                <input type="number" id="score3" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore(false)" onfocus="setFocusIndex(3)">
                 <div class="score-presets">
                     <button class="btn-preset" onclick="setJudgeScore(3, 7.5)">7.5</button>
                     <button class="btn-preset" onclick="setJudgeScore(3, 8.0)">8.0</button>
@@ -801,9 +651,7 @@
             <div class="judge-card" id="card-4">
                 <span class="judge-title">JUDGE 4</span>
                 <span class="status-badge" id="badge-4">PENDING</span>
-                <div class="score-input-wrapper">
-                    <input type="number" id="score4" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
-                </div>
+                <input type="number" id="score4" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore(false)" onfocus="setFocusIndex(4)">
                 <div class="score-presets">
                     <button class="btn-preset" onclick="setJudgeScore(4, 7.5)">7.5</button>
                     <button class="btn-preset" onclick="setJudgeScore(4, 8.0)">8.0</button>
@@ -816,9 +664,7 @@
             <div class="judge-card" id="card-5">
                 <span class="judge-title">JUDGE 5</span>
                 <span class="status-badge" id="badge-5">PENDING</span>
-                <div class="score-input-wrapper">
-                    <input type="number" id="score5" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore()">
-                </div>
+                <input type="number" id="score5" class="score-input" min="0" max="10" step="0.1" placeholder="0.0" oninput="calculateScore(false)" onfocus="setFocusIndex(5)">
                 <div class="score-presets">
                     <button class="btn-preset" onclick="setJudgeScore(5, 7.5)">7.5</button>
                     <button class="btn-preset" onclick="setJudgeScore(5, 8.0)">8.0</button>
@@ -829,43 +675,25 @@
 
         </div>
 
-        <!-- Total Score & Timer Row -->
-        <div class="dashboard-row">
-            
-            <!-- Total Score Panel -->
-            <div class="total-score-card">
-                <div class="total-score-title">
-                    <span>FINAL TOTAL SCORE</span>
-                    <span id="active-belt-tag" style="color: var(--aka-red); font-weight: 900;">🔴 AKA</span>
-                </div>
-                
-                <div class="total-score-display" id="totalScore">0.0</div>
+        <div class="nav-hint">
+            💡 Use <kbd>← Left Arrow</kbd> and <kbd>Right Arrow →</kbd> to switch judges. Press <kbd>Enter ↵</kbd> to submit final score.
+        </div>
 
-                <div class="score-formula" id="scoreFormula">
-                    WKF System: Sum of middle 3 scores (Highest & Lowest dropped)
-                </div>
+        <!-- Total Score Panel -->
+        <div class="score-dashboard">
+            <div class="total-score-label">TOTAL SCORE</div>
+            <div class="total-score-number" id="totalScore">0.0</div>
+            <div class="score-formula-text" id="scoreFormula">
+                Sum of middle 3 scores (Highest & Lowest dropped)
             </div>
-
-            <!-- Performance Timer Panel -->
-            <div class="timer-card">
-                <div class="total-score-title">PERFORMANCE TIMER</div>
-                
-                <div class="timer-display" id="timerDisplay">00:00.00</div>
-
-                <div class="timer-controls">
-                    <button class="btn-action btn-primary" id="btn-timer-start" onclick="toggleTimer()">START</button>
-                    <button class="btn-action btn-secondary" onclick="resetTimer()">RESET</button>
-                </div>
-            </div>
-
         </div>
 
         <!-- Controls Action Bar -->
         <div class="controls-bar">
-            <button class="btn-action btn-primary" style="flex: 2; font-size: 16px;" onclick="calculateScore(true)">
-                ⚡ SUBMIT & SHOW GIANT RESULT PAGE
+            <button class="btn-submit" onclick="calculateScore(true)">
+                SUBMIT & SHOW FINAL RESULT PAGE (7s)
             </button>
-            <button class="btn-action btn-secondary" onclick="resetAll()">
+            <button class="btn-reset" onclick="resetAll()">
                 CLEAR ALL
             </button>
         </div>
@@ -877,15 +705,12 @@
          ============================================================ -->
     <div id="result-screen-overlay">
         <div class="result-header-badge aka" id="res-overlay-badge">
-            🔴 AKA COMPETITOR RESULT
+            🔴 AKA RESULT
         </div>
 
         <div style="text-align: center;">
             <div class="result-athlete-name" id="res-overlay-name">
                 ATHLETE NAME
-            </div>
-            <div class="result-kata-name" id="res-overlay-kata">
-                KATA NAME
             </div>
         </div>
 
@@ -902,7 +727,7 @@
                 <div class="result-timer-bar" id="res-timer-bar"></div>
             </div>
             <div class="result-return-hint">
-                <span>Auto-returning to scoreboard in 7s...</span>
+                <span>Auto-returning in 7 seconds...</span>
                 <button class="btn-return-now" onclick="hideResultScreen()">Return Now</button>
             </div>
         </div>
@@ -910,39 +735,38 @@
 
     <!-- Footer -->
     <footer>
-        Developed by <strong>Okinavan Shito Ryu Karate Academy</strong> • WKF Championship Kata System
+        Developed by <strong>Okinavan Shito Ryu Karate Academy</strong>
     </footer>
 
     <!-- JavaScript Logic -->
     <script>
         let currentBelt = 'aka';
-        let timerInterval = null;
-        let elapsedMs = 0;
-        let isTimerRunning = false;
-
+        let currentFocusedJudge = 1;
         let resultAutoReturnTimer = null;
 
         function setBelt(belt) {
             currentBelt = belt;
-            const matchCard = document.getElementById('match-card');
             const akaBadge = document.getElementById('badge-aka');
             const aoBadge = document.getElementById('badge-ao');
-            const beltTag = document.getElementById('active-belt-tag');
 
             if (belt === 'aka') {
-                matchCard.classList.remove('ao-active');
-                matchCard.classList.add('aka-active');
                 akaBadge.classList.remove('inactive');
                 aoBadge.classList.add('inactive');
-                beltTag.innerText = '🔴 AKA';
-                beltTag.style.color = 'var(--aka-red)';
             } else {
-                matchCard.classList.remove('aka-active');
-                matchCard.classList.add('ao-active');
                 aoBadge.classList.remove('inactive');
                 akaBadge.classList.add('inactive');
-                beltTag.innerText = '🔵 AO';
-                beltTag.style.color = 'var(--ao-blue)';
+            }
+        }
+
+        function setFocusIndex(index) {
+            currentFocusedJudge = index;
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById(`card-${i}`);
+                if (i === index) {
+                    card.classList.add('focused');
+                } else {
+                    card.classList.remove('focused');
+                }
             }
         }
 
@@ -950,6 +774,7 @@
             const input = document.getElementById(`score${judgeNum}`);
             input.value = scoreVal.toFixed(1);
             calculateScore(false);
+            setFocusIndex(judgeNum);
         }
 
         function calculateScore(triggerGiantPage = false) {
@@ -971,7 +796,7 @@
             for (let i = 1; i <= 5; i++) {
                 const card = document.getElementById(`card-${i}`);
                 const badge = document.getElementById(`badge-${i}`);
-                card.className = 'judge-card';
+                card.className = `judge-card ${i === currentFocusedJudge ? 'focused' : ''}`;
                 badge.innerText = 'PENDING';
             }
 
@@ -1026,17 +851,13 @@
             const overlay = document.getElementById('result-screen-overlay');
             const badge = document.getElementById('res-overlay-badge');
             const nameEl = document.getElementById('res-overlay-name');
-            const kataEl = document.getElementById('res-overlay-kata');
             const scoreEl = document.getElementById('res-overlay-score');
             const judgesRow = document.getElementById('res-overlay-judges');
             const timerBar = document.getElementById('res-timer-bar');
 
-            // Competitor & Kata Details
             const athleteName = document.getElementById('athleteName').value.trim() || (currentBelt === 'aka' ? 'AKA COMPETITOR' : 'AO COMPETITOR');
-            const kataName = document.getElementById('kataSelect').value;
 
             nameEl.innerText = athleteName;
-            kataEl.innerText = `KATA: ${kataName}`;
             scoreEl.innerText = totalScore.toFixed(1);
 
             if (currentBelt === 'aka') {
@@ -1095,43 +916,6 @@
             if (resultAutoReturnTimer) clearTimeout(resultAutoReturnTimer);
         }
 
-        /* Timer Controls */
-        function toggleTimer() {
-            const btn = document.getElementById('btn-timer-start');
-            if (!isTimerRunning) {
-                isTimerRunning = true;
-                btn.innerText = 'STOP';
-                btn.className = 'btn-action btn-danger';
-                const startTime = Date.now() - elapsedMs;
-                timerInterval = setInterval(() => {
-                    elapsedMs = Date.now() - startTime;
-                    updateTimerDisplay();
-                }, 10);
-            } else {
-                isTimerRunning = false;
-                btn.innerText = 'START';
-                btn.className = 'btn-action btn-primary';
-                clearInterval(timerInterval);
-            }
-        }
-
-        function updateTimerDisplay() {
-            const mins = String(Math.floor((elapsedMs / 60000) % 60)).padStart(2, '0');
-            const secs = String(Math.floor((elapsedMs / 1000) % 60)).padStart(2, '0');
-            const ms = String(Math.floor((elapsedMs / 10) % 100)).padStart(2, '0');
-            document.getElementById('timerDisplay').innerText = `${mins}:${secs}.${ms}`;
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isTimerRunning = false;
-            elapsedMs = 0;
-            updateTimerDisplay();
-            const btn = document.getElementById('btn-timer-start');
-            btn.innerText = 'START';
-            btn.className = 'btn-action btn-primary';
-        }
-
         function resetAll() {
             hideResultScreen();
             for (let i = 1; i <= 5; i++) {
@@ -1143,8 +927,9 @@
             }
             document.getElementById('athleteName').value = '';
             document.getElementById('totalScore').innerText = '0.0';
-            document.getElementById('scoreFormula').innerText = 'WKF System: Sum of middle 3 scores (Highest & Lowest dropped)';
-            resetTimer();
+            document.getElementById('scoreFormula').innerText = 'Sum of middle 3 scores (Highest & Lowest dropped)';
+            setFocusIndex(1);
+            document.getElementById('score1').focus();
         }
 
         function toggleFullScreen() {
@@ -1159,7 +944,6 @@
             }
         }
 
-        /* Web Audio Synthesizer Beep */
         function playBuzzerSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1176,21 +960,32 @@
             } catch (e) {}
         }
 
-        // Keyboard Shortcuts: Space to Start/Stop timer, R to Reset timer, ESC to close result screen
+        /* Keyboard Navigation: Left / Right Arrows & Enter Key */
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Escape') {
                 hideResultScreen();
                 return;
             }
-            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') {
-                return;
-            }
-            if (e.code === 'Space') {
+
+            if (e.code === 'ArrowLeft') {
                 e.preventDefault();
-                toggleTimer();
-            } else if (e.code === 'KeyR') {
-                resetTimer();
+                const nextIdx = currentFocusedJudge > 1 ? currentFocusedJudge - 1 : 5;
+                setFocusIndex(nextIdx);
+                document.getElementById(`score${nextIdx}`).focus();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                const nextIdx = currentFocusedJudge < 5 ? currentFocusedJudge + 1 : 1;
+                setFocusIndex(nextIdx);
+                document.getElementById(`score${nextIdx}`).focus();
+            } else if (e.code === 'Enter') {
+                e.preventDefault();
+                calculateScore(true);
             }
+        });
+
+        // Initialize focus on Judge 1 input
+        window.addEventListener('DOMContentLoaded', () => {
+            setFocusIndex(1);
         });
     </script>
 </body>
