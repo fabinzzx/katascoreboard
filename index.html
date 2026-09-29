@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kata Scoreboard - Okinavan Shito Ryu Karate Academy</title>
+    <title>WKF Kata Scoreboard - Okinavan Shito Ryu Karate Academy</title>
     
     <style>
         * {
@@ -15,58 +15,60 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #111827;
+            background-color: #000000;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 24px;
+            padding: 16px 24px;
+            overflow-x: hidden;
         }
 
-        /* Minimal Header */
+        /* Full Width Header */
         header {
             width: 100%;
-            max-width: 1100px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px 24px;
-            background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 12px;
-            margin-bottom: 24px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            margin-bottom: 20px;
         }
 
         .header-title {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
         }
 
         .header-title h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: #000000;
+            color: #ffffff;
         }
 
+        /* 3-Way Mode Selector: AKA, AO, INDIVIDUAL */
         .belt-badge {
             display: flex;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
-            border: 2px solid #000000;
+            border: 1px solid #333333;
+            background: #171717;
         }
 
         .belt-badge span {
-            padding: 6px 16px;
+            padding: 8px 18px;
             font-size: 13px;
             font-weight: 800;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
         }
 
         .belt-badge .aka {
@@ -79,22 +81,27 @@
             color: #ffffff;
         }
 
-        .belt-badge span.inactive {
-            opacity: 0.25;
-            background: #f3f4f6;
+        .belt-badge .individual {
+            background: #ffffff;
             color: #000000;
+        }
+
+        .belt-badge span.inactive {
+            opacity: 0.3;
+            background: transparent;
+            color: #888888;
         }
 
         .header-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .btn-minimal {
-            background: #ffffff;
-            border: 2px solid #000000;
-            color: #000000;
-            padding: 8px 16px;
+            background: #171717;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 10px 20px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 700;
@@ -103,110 +110,127 @@
         }
 
         .btn-minimal:hover {
-            background: #000000;
-            color: #ffffff;
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
-        /* Main Workspace */
+        /* Full Width Main Workspace (Edge to Edge, Zero Side Margins) */
         .main-container {
             width: 100%;
-            max-width: 1100px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
-        /* Athlete Info Minimal Card */
+        /* Athlete Info Card */
         .athlete-card {
-            background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 12px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
             padding: 20px 24px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        .athlete-card.aka-active {
+            border-color: #dc2626;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+        }
+
+        .athlete-card.ao-active {
+            border-color: #2563eb;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .athlete-card.individual-active {
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
         }
 
         .athlete-card label {
             font-size: 12px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #6b7280;
+            letter-spacing: 1.5px;
+            color: #a1a1aa;
         }
 
         .athlete-card input {
-            background: #ffffff;
-            border: 2px solid #000000;
+            background: #171717;
+            border: 1px solid #333333;
             border-radius: 8px;
-            padding: 12px 16px;
-            color: #000000;
-            font-size: 18px;
+            padding: 14px 18px;
+            color: #ffffff;
+            font-size: 20px;
             font-weight: 700;
             outline: none;
+            transition: border-color 0.2s ease;
         }
 
         .athlete-card input:focus {
-            border-color: #000000;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
-        /* 5 Judges Grid */
+        /* 5 Judges Grid (Spans Full Width) */
         .judges-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 16px;
+            width: 100%;
         }
 
         .judge-card {
-            background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 12px;
-            padding: 18px 12px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            padding: 20px 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             position: relative;
             transition: all 0.2s ease;
         }
 
         .judge-card.focused {
-            border-color: #000000;
-            background: #f9fafb;
-            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.15);
+            border-color: #ffffff;
+            background: #141414;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .judge-title {
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #374151;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #a1a1aa;
             text-transform: uppercase;
         }
 
         .score-input {
             width: 100%;
-            height: 70px;
-            background: #ffffff;
-            border: 2px solid #000000;
+            height: 75px;
+            background: #171717;
+            border: 1px solid #333333;
             border-radius: 10px;
-            color: #000000;
+            color: #ffffff;
             font-family: inherit;
-            font-size: 38px;
-            font-weight: 800;
+            font-size: 42px;
+            font-weight: 900;
             text-align: center;
             outline: none;
             transition: all 0.2s ease;
         }
 
         .score-input:focus {
-            background: #ffffff;
-            border-color: #000000;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
-        /* Judge Status Badges */
+        /* Counted & Dropped Badges */
         .status-badge {
             font-size: 10px;
             font-weight: 800;
@@ -214,48 +238,46 @@
             border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 1px solid #000000;
             opacity: 0;
             transition: 0.2s;
         }
 
         .judge-card.status-counted {
-            background: #ecfdf5;
-            border-color: #059669;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
         }
 
         .judge-card.status-counted .status-badge {
             opacity: 1;
             background: #10b981;
-            color: #ffffff;
-            border-color: #059669;
+            color: #000000;
         }
 
         .judge-card.status-counted .score-input {
-            color: #047857;
-            border-color: #059669;
+            color: #34d399;
+            border-color: #10b981;
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
         }
 
         .judge-card.status-dropped {
-            background: #fef2f2;
-            border-color: #dc2626;
-            opacity: 0.6;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            opacity: 0.55;
         }
 
         .judge-card.status-dropped .status-badge {
             opacity: 1;
             background: #ef4444;
             color: #ffffff;
-            border-color: #dc2626;
         }
 
         .judge-card.status-dropped .score-input {
-            color: #b91c1c;
+            color: #f87171;
             text-decoration: line-through;
-            border-color: #dc2626;
+            border-color: #ef4444;
         }
 
-        /* Presets */
+        /* Preset Score Buttons */
         .score-presets {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -264,48 +286,50 @@
         }
 
         .btn-preset {
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            color: #111827;
-            padding: 6px 0;
+            background: #171717;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 8px 0;
             border-radius: 6px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .btn-preset:hover {
-            background: #000000;
-            color: #ffffff;
-            border-color: #000000;
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
-        /* Minimal Score Dashboard */
+        /* Minimal Score Dashboard (Full Width) */
         .score-dashboard {
-            background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 12px;
-            padding: 24px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+            width: 100%;
         }
 
         .total-score-label {
             font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-weight: 900;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            color: #6b7280;
+            color: #a1a1aa;
         }
 
         .total-score-number {
-            font-size: 76px;
+            font-size: 88px;
             font-weight: 900;
-            color: #000000;
+            color: #f59e0b;
+            text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
             line-height: 1;
             margin: 12px 0;
         }
@@ -313,39 +337,42 @@
         .score-formula-text {
             font-size: 13px;
             font-weight: 600;
-            color: #4b5563;
+            color: #a1a1aa;
+            font-family: monospace;
         }
 
         /* Control Action Buttons */
         .controls-bar {
             display: flex;
-            gap: 12px;
+            gap: 14px;
+            width: 100%;
         }
 
         .btn-submit {
             flex: 2;
-            background: #000000;
-            color: #ffffff;
-            border: 2px solid #000000;
-            padding: 16px;
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid #ffffff;
+            padding: 18px;
             border-radius: 10px;
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 900;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s ease;
         }
 
         .btn-submit:hover {
-            background: #1f2937;
+            background: #e4e4e7;
+            transform: translateY(-1px);
         }
 
         .btn-reset {
             flex: 1;
-            background: #ffffff;
-            color: #000000;
-            border: 2px solid #000000;
-            padding: 16px;
+            background: #171717;
+            color: #ffffff;
+            border: 1px solid #333333;
+            padding: 18px;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 800;
@@ -355,41 +382,41 @@
         }
 
         .btn-reset:hover {
-            background: #f3f4f6;
+            background: #27272a;
         }
 
         /* Keyboard Navigation Hint */
         .nav-hint {
             font-size: 12px;
             font-weight: 600;
-            color: #6b7280;
+            color: #71717a;
             text-align: center;
-            margin-top: -10px;
+            margin-top: -5px;
         }
 
         .nav-hint kbd {
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
+            background: #18181b;
+            border: 1px solid #3f3f46;
             padding: 2px 6px;
             border-radius: 4px;
-            color: #111827;
+            color: #ffffff;
             font-family: inherit;
         }
 
         /* ============================================================
-           GIANT 7-SECOND RESULT REVEAL OVERLAY PAGE (MINIMAL WHITE/BLACK)
+           GIANT FULL-SCREEN 7-SECOND RESULT REVEAL OVERLAY PAGE
            ============================================================ */
         #result-screen-overlay {
             position: fixed;
             inset: 0;
             z-index: 99999;
-            background: #ffffff;
-            color: #000000;
+            background: #000000;
+            color: #ffffff;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 50px 24px;
+            padding: 50px 30px;
             animation: popIn 0.3s ease;
         }
 
@@ -399,13 +426,12 @@
         }
 
         .result-header-badge {
-            padding: 10px 32px;
+            padding: 12px 36px;
             border-radius: 50px;
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
-            border: 2px solid #000000;
         }
 
         .result-header-badge.aka {
@@ -418,20 +444,26 @@
             color: #ffffff;
         }
 
-        .result-athlete-name {
-            font-size: 56px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: center;
-            margin-top: 10px;
+        .result-header-badge.individual {
+            background: #ffffff;
             color: #000000;
         }
 
-        .result-giant-score {
-            font-size: 160px;
+        .result-athlete-name {
+            font-size: 64px;
             font-weight: 900;
-            color: #000000;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+
+        .result-giant-score {
+            font-size: 180px;
+            font-weight: 900;
+            color: #f59e0b;
+            text-shadow: 0 0 60px rgba(245, 158, 11, 0.5);
             line-height: 0.9;
             margin: 20px 0;
             text-align: center;
@@ -443,50 +475,50 @@
             gap: 16px;
             justify-content: center;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
         }
 
         .result-judge-box {
             flex: 1;
-            background: #ffffff;
-            border: 2px solid #000000;
-            border-radius: 12px;
-            padding: 16px 8px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            padding: 18px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .result-judge-box.status-counted {
-            background: #ecfdf5;
-            border-color: #059669;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
         }
 
         .result-judge-box.status-dropped {
-            background: #fef2f2;
-            border-color: #dc2626;
-            opacity: 0.6;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            opacity: 0.55;
         }
 
         .result-judge-num {
             font-size: 12px;
             font-weight: 800;
-            color: #4b5563;
+            color: #a1a1aa;
         }
 
         .result-judge-val {
-            font-size: 36px;
+            font-size: 40px;
             font-weight: 900;
-            color: #000000;
+            color: #ffffff;
         }
 
         .result-judge-box.status-counted .result-judge-val {
-            color: #047857;
+            color: #34d399;
         }
 
         .result-judge-box.status-dropped .result-judge-val {
-            color: #b91c1c;
+            color: #f87171;
             text-decoration: line-through;
         }
 
@@ -500,7 +532,7 @@
 
         .result-judge-box.status-counted .result-judge-tag {
             background: #10b981;
-            color: #ffffff;
+            color: #000000;
         }
 
         .result-judge-box.status-dropped .result-judge-tag {
@@ -512,53 +544,75 @@
         .result-timer-bar-wrapper {
             width: 100%;
             max-width: 500px;
-            background: #e5e7eb;
+            background: #18181b;
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
             margin-top: 15px;
-            border: 1px solid #000000;
+            border: 1px solid #27272a;
         }
 
         .result-timer-bar {
             height: 100%;
             width: 100%;
-            background: #000000;
-            transition: width 7s linear;
+            background: #ffffff;
+            transition: width 0.1s linear;
         }
 
         .result-return-hint {
             font-size: 13px;
             font-weight: 700;
-            color: #4b5563;
-            margin-top: 8px;
+            color: #a1a1aa;
+            margin-top: 10px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .btn-return-now {
-            background: #000000;
-            color: #ffffff;
+            background: #ffffff;
+            color: #000000;
             border: none;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 800;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-return-now:hover {
+            background: #e4e4e7;
+        }
+
+        .btn-pause-timer {
+            background: #27272a;
+            color: #ffffff;
+            border: 1px solid #3f3f46;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-pause-timer:hover {
+            background: #3f3f46;
+            border-color: #71717a;
         }
 
         /* Footer */
         footer {
             margin-top: 30px;
             font-size: 13px;
-            color: #4b5563;
+            color: #71717a;
             text-align: center;
             font-weight: 600;
         }
 
         footer strong {
-            color: #000000;
+            color: #ffffff;
         }
 
         @media (max-width: 900px) {
@@ -576,13 +630,14 @@
 </head>
 <body>
 
-    <!-- Minimal Header -->
+    <!-- Full Width Header -->
     <header>
         <div class="header-title">
             <h1>KATA SCOREBOARD</h1>
             <div class="belt-badge">
                 <span id="badge-aka" class="aka" onclick="setBelt('aka')">🔴 AKA</span>
                 <span id="badge-ao" class="ao inactive" onclick="setBelt('ao')">🔵 AO</span>
+                <span id="badge-individual" class="individual inactive" onclick="setBelt('individual')">🥋 INDIVIDUAL</span>
             </div>
         </div>
 
@@ -596,11 +651,11 @@
         </div>
     </header>
 
-    <!-- Main Workspace -->
+    <!-- Main Workspace (Edge to Edge) -->
     <div class="main-container">
 
         <!-- Athlete Details -->
-        <div class="athlete-card">
+        <div class="athlete-card aka-active" id="match-card">
             <label for="athleteName">Athlete Name / Dojo</label>
             <input type="text" id="athleteName" placeholder="Enter athlete name or dojo">
         </div>
@@ -679,7 +734,7 @@
             💡 Use <kbd>← Left Arrow</kbd> and <kbd>Right Arrow →</kbd> to switch judges. Press <kbd>Enter ↵</kbd> to submit final score.
         </div>
 
-        <!-- Total Score Panel -->
+        <!-- Total Score Panel (Full Width) -->
         <div class="score-dashboard">
             <div class="total-score-label">TOTAL SCORE</div>
             <div class="total-score-number" id="totalScore">0.0</div>
@@ -722,13 +777,16 @@
             <!-- 5 Judge boxes generated by JS -->
         </div>
 
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <div class="result-timer-bar-wrapper">
                 <div class="result-timer-bar" id="res-timer-bar"></div>
             </div>
             <div class="result-return-hint">
-                <span>Auto-returning in 7 seconds...</span>
-                <button class="btn-return-now" onclick="hideResultScreen()">Return Now</button>
+                <span id="res-timer-text">Auto-returning in 7 seconds...</span>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn-pause-timer" id="btn-pause-timer" onclick="togglePauseTimer()">⏸ Pause</button>
+                    <button class="btn-return-now" onclick="hideResultScreen()">Return Now</button>
+                </div>
             </div>
         </div>
     </div>
@@ -740,21 +798,34 @@
 
     <!-- JavaScript Logic -->
     <script>
-        let currentBelt = 'aka';
+        let currentBelt = 'aka'; // 'aka' | 'ao' | 'individual'
         let currentFocusedJudge = 1;
-        let resultAutoReturnTimer = null;
+        let resultTimerInterval = null;
+        let remainingMs = 7000;
+        let isPaused = false;
 
         function setBelt(belt) {
             currentBelt = belt;
+            const matchCard = document.getElementById('match-card');
             const akaBadge = document.getElementById('badge-aka');
             const aoBadge = document.getElementById('badge-ao');
+            const indBadge = document.getElementById('badge-individual');
+
+            // Reset all active classes
+            matchCard.className = 'athlete-card';
+            akaBadge.classList.add('inactive');
+            aoBadge.classList.add('inactive');
+            indBadge.classList.add('inactive');
 
             if (belt === 'aka') {
+                matchCard.classList.add('aka-active');
                 akaBadge.classList.remove('inactive');
-                aoBadge.classList.add('inactive');
-            } else {
+            } else if (belt === 'ao') {
+                matchCard.classList.add('ao-active');
                 aoBadge.classList.remove('inactive');
-                akaBadge.classList.add('inactive');
+            } else {
+                matchCard.classList.add('individual-active');
+                indBadge.classList.remove('inactive');
             }
         }
 
@@ -853,9 +924,9 @@
             const nameEl = document.getElementById('res-overlay-name');
             const scoreEl = document.getElementById('res-overlay-score');
             const judgesRow = document.getElementById('res-overlay-judges');
-            const timerBar = document.getElementById('res-timer-bar');
 
-            const athleteName = document.getElementById('athleteName').value.trim() || (currentBelt === 'aka' ? 'AKA COMPETITOR' : 'AO COMPETITOR');
+            const defaultName = currentBelt === 'aka' ? 'AKA COMPETITOR' : currentBelt === 'ao' ? 'AO COMPETITOR' : 'INDIVIDUAL PARTICIPANT';
+            const athleteName = document.getElementById('athleteName').value.trim() || defaultName;
 
             nameEl.innerText = athleteName;
             scoreEl.innerText = totalScore.toFixed(1);
@@ -863,9 +934,12 @@
             if (currentBelt === 'aka') {
                 badge.className = 'result-header-badge aka';
                 badge.innerText = '🔴 AKA RESULT';
-            } else {
+            } else if (currentBelt === 'ao') {
                 badge.className = 'result-header-badge ao';
                 badge.innerText = '🔵 AO RESULT';
+            } else {
+                badge.className = 'result-header-badge individual';
+                badge.innerText = '🥋 PARTICIPANT RESULT';
             }
 
             // Build 5 judge boxes
@@ -892,28 +966,78 @@
                 judgesRow.appendChild(box);
             });
 
-            // Reset timer bar animation
-            timerBar.style.transition = 'none';
-            timerBar.style.width = '100%';
-            setTimeout(() => {
-                timerBar.style.transition = 'width 7s linear';
-                timerBar.style.width = '0%';
-            }, 50);
-
             // Display overlay
             overlay.style.display = 'flex';
 
-            // Auto-return timer after 7 seconds
-            if (resultAutoReturnTimer) clearTimeout(resultAutoReturnTimer);
-            resultAutoReturnTimer = setTimeout(() => {
-                hideResultScreen();
-            }, 7000);
+            // Start 7-second timer
+            startResultTimer();
+        }
+
+        function startResultTimer() {
+            if (resultTimerInterval) clearInterval(resultTimerInterval);
+            remainingMs = 7000;
+            isPaused = false;
+            updatePauseButtonUI();
+
+            const timerBar = document.getElementById('res-timer-bar');
+            const returnHintText = document.getElementById('res-timer-text');
+
+            timerBar.style.transition = 'width 0.1s linear';
+            timerBar.style.width = '100%';
+            returnHintText.innerText = 'Auto-returning in 7 seconds...';
+
+            resultTimerInterval = setInterval(() => {
+                if (!isPaused) {
+                    remainingMs -= 100;
+                    const percentage = Math.max(0, (remainingMs / 7000) * 100);
+                    timerBar.style.width = percentage + '%';
+                    const remainingSec = Math.ceil(remainingMs / 1000);
+                    returnHintText.innerText = `Auto-returning in ${remainingSec} seconds...`;
+
+                    if (remainingMs <= 0) {
+                        hideResultScreen();
+                    }
+                }
+            }, 100);
+        }
+
+        function togglePauseTimer() {
+            isPaused = !isPaused;
+            const returnHintText = document.getElementById('res-timer-text');
+            if (isPaused) {
+                const remainingSec = Math.ceil(remainingMs / 1000);
+                returnHintText.innerText = `Timer Paused (${remainingSec}s remaining)`;
+            } else {
+                const remainingSec = Math.ceil(remainingMs / 1000);
+                returnHintText.innerText = `Auto-returning in ${remainingSec} seconds...`;
+            }
+            updatePauseButtonUI();
+        }
+
+        function updatePauseButtonUI() {
+            const pauseBtn = document.getElementById('btn-pause-timer');
+            if (!pauseBtn) return;
+            if (isPaused) {
+                pauseBtn.innerText = '▶ Resume';
+                pauseBtn.style.background = '#f59e0b';
+                pauseBtn.style.color = '#000000';
+                pauseBtn.style.borderColor = '#f59e0b';
+            } else {
+                pauseBtn.innerText = '⏸ Pause';
+                pauseBtn.style.background = '#27272a';
+                pauseBtn.style.color = '#ffffff';
+                pauseBtn.style.borderColor = '#3f3f46';
+            }
         }
 
         function hideResultScreen() {
             const overlay = document.getElementById('result-screen-overlay');
             overlay.style.display = 'none';
-            if (resultAutoReturnTimer) clearTimeout(resultAutoReturnTimer);
+            if (resultTimerInterval) {
+                clearInterval(resultTimerInterval);
+                resultTimerInterval = null;
+            }
+            isPaused = false;
         }
 
         function resetAll() {
@@ -962,9 +1086,19 @@
 
         /* Keyboard Navigation: Left / Right Arrows & Enter Key */
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Escape') {
-                hideResultScreen();
-                return;
+            const overlay = document.getElementById('result-screen-overlay');
+            const isOverlayVisible = window.getComputedStyle(overlay).display === 'flex';
+
+            if (isOverlayVisible) {
+                if (e.code === 'Escape') {
+                    hideResultScreen();
+                    return;
+                }
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePauseTimer();
+                    return;
+                }
             }
 
             if (e.code === 'ArrowLeft') {
@@ -978,8 +1112,12 @@
                 setFocusIndex(nextIdx);
                 document.getElementById(`score${nextIdx}`).focus();
             } else if (e.code === 'Enter') {
-                e.preventDefault();
-                calculateScore(true);
+                if (isOverlayVisible) {
+                    hideResultScreen();
+                } else {
+                    e.preventDefault();
+                    calculateScore(true);
+                }
             }
         });
 
